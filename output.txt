@@ -1,0 +1,959 @@
+PROPOSAL SKRIPSI
+
+
+RANCANG BANGUN APLIKASI KATALOG EXOPLANET BERBASIS WEB DENGAN PENERAPAN CONVOLUTIONAL NEURAL NETWORK UNTUK KLASIFIKASI TIPE EXOPLANET
+
+DIMAS ANGGORO SAKTI
+NIM.2110511115
+
+
+
+
+
+FAKULTAS ILMU KOMPUTER
+UNIVERSITAS PEMBANGUNAN NASIONAL "VETERAN" JAKARTA
+AGUSTUS 2024
+PROPOSAL SKRIPSI
+
+
+RANCANG BANGUN APLIKASI KATALOG EXOPLANET BERBASIS WEB DENGAN PENERAPAN CONVOLUTIONAL NEURAL NETWORK UNTUK ANALISIS DAN VISUALISASI DATA KECEPATAN RADIAL GLIESE 667CC
+
+
+DIMAS ANGGORO SAKTI
+NIM.2110511115
+
+
+
+
+
+FAKULTAS ILMU KOMPUTER
+UNIVERSITAS PEMBANGUNAN NASIONAL "VETERAN" JAKARTA
+AGUSTUS 2024
+
+
+
+KATA PENGANTAR
+
+	Segala puji dan Syukur penulis dipanjatkan atas kehadirat Tuhan Yang Maha Esa. Berkat rahmat, karunia, serta kehendak-Nya, penulis dapat menyelesaikan proposal skripsi berjudul “Optimasi Deteksi Exoplanet Gliese 667 Cc di Sistem Bintang Gliese 667 Menggunakan Convolutional Neural Network Berbasis Data Kecepatan Radial” dengan baik. Tujuan dari pembuatan proposal ini untuk memenuhi syarat kelulusan untuk gelar S1 Informatika Fakultas Ilmu Komputer, Universitas Pembangunan Veteran Jakarta. 
+Dalam penyusunan proposal skripsi ini, penulis memperoleh banyak bantuan serta dukungan secara moral ataupun materil. Oleh karena itu, penulis ingin mengungkapkan rasa terima kasih yang sebesar-besarnya kepada:
+Ibu saya yang selalu memberikan bantuan, semangat, dan doa. Terima kasih atas nasihat dan saran yang membantu untuk membuat proposal ini.
+Ayah saya yang telah memberikan dukungan kepada penulis melalui semangat, motivasi, dan nasehat.
+Bapak Dr. Tjahjanto, S.Kom., M.M., selaku dosen pembimbing I yang telah memberikan Sumber referensi untuk penelitian proposal ini, serta arahan selama proses penulisan proposal ini.
+Bapak Muhammad Adrezo, S.Kom.,M.Sc . selaku dosen pembimbing II yang juga telah memberikan kritik, saran, arahan, ide, serta dukungan dalam penyelesaian proposal skripsi ini.
+Bapak Radinal Setyadinsa, S.Pd., M.T.I. selaku dosen pembimbing akademik yang membantu penulis selama masa bimbingan proses akademik penulis selama perkuliahan.
+Pakar penelitian proposal saya, yaitu Dr. Anton Timur Jaelani, S.Si., M.Si.yang membantu penulis dalam referensi jurnal yang berkaitan dengan penelitian, memberikan bimbingan terkait metodologi yang tepat, serta saran teknis yang digunakan dalam penelitian ini.
+Pihak-pihak yang terlibat baik sceara langsung maupun tidak langsung, yang tidak dapat penulis sebutkan satu per satu tanpa mengurangi rasa hormat. Penulis mengucapkan terima kasih atas segala bantuan yang berkaitan dengan penelitian proposal ini, sehingga proposal skripsi ini dapat diselesaikan dengan baik.
+
+
+
+
+
+
+
+
+
+
+DAFTAR ISI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DAFTAR TABEL
+Tabel 2.1 Komponen Flowchart	30
+Tabel 2.2 Komponen dan Relasi Use Case Diagram (Ramdany et al., n.d.)	32
+Tabel 2.3 Komponen Untuk Activity Diagram (Rumbaugh, Jacobson, & Booch, 2021)	33
+Tabel 2.4 Daftar Penelitian Terdahulu	42 
+Tabel 3.1 Jadwal Penelitian	101
+
+DAFTAR GAMBAR
+Gambar 1.1 Contoh Planet Extrasurya	1   
+Gambar 2.1 Contoh Planet Extrasurya Yang Layak Huni	11
+Gambar 2.2 Perbandingan Antara Sistem Gliese 667 C dengan Tata Surya	12
+Gambar 2.3 Planet Gliese 667 Cc	14
+Gambar 2.4 Metode Pendeteksian Exoplanet Menggunakan Radial Velocity	16
+Gambar 2.5 Skematik Diagram dari Convolutional Neural Network (CNN)	17
+Gambar 2.6 Salah Satu Contoh Alur Proses dari Pengaplikasian CNN Untuk Deteksi Exoplanet (Valizadegan et al., n.d.)	20
+Gambar 2.7 Dataset Spectroscopy dari Bintang Gliese 667 C	24
+Gambar 2.8 Contoh UI Design	35
+Gambar 2.9 Alur Proses UX Design	36
+Gambar 2.10 Arsitektur Pengembangan Aplikasi Menggunakan MERN Stack	37
+Gambar 2.11 Alur Kerja REST API	39
+Gambar 2.12 Alur Kerja Model Waterfall	40
+Gambar 2.13 Alur Black-Box Testing	41 
+Gambar 3.1 Alur Kerja Penelitian	49
+Gambar 3.2 Contoh Arsitektur CNN	55
+Gambar 3.3 Training dan Test Loss dari Model Yang Telah Divalidasi	57
+Gambar 3.4 Use Case Diagram Aplikasi katalog Exoplanet	61
+Gambar 3.5 Activity Diagram Admin Katalog Exoplanet	65
+Gambar 3.6 Activity Diagram User Katalog Exoplanet	67
+Gambar 3.7 Beranda Katalog Exoplanet	69
+Gambar 3.8 Katalog Pada Katalog Exoplanet	73
+Gambar 3.9 Informasi Exoplanet Didalam Katalog Exoplanet	77
+Gambar 3.10 Periodogram	82
+Gambar 3.11 Visualisasi Planet Layak Huni	86
+Gambar 3.12 General Circulation Model	90
+
+
+
+
+
+
+DAFTAR LAMPIRAN
+Lembar Persetujuan ……………………………………………………………………… ii
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BAB 1
+PENDAHULUAN
+1.1 Latar Belakang
+Perkembangan teknologi di era digital telah membawa dampak signifikan pada berbagai bidang ilmu pengetahuan, termasuk astrofisika. Salah satu cabang astrofisika yang mengalami kemajuan pesat adalah penelitian eksoplanet, yaitu planet yang mengorbit bintang di luar Tata Surya. Sejak eksoplanet pertama kali terdeteksi pada tahun 1992 dengan menggunakan teleskop Arecibo, pencarian planet-planet yang memiliki karakteristik mirip Bumi telah menjadi prioritas utama  Upaya ini penting karena dapat memperluas pemahaman kita tentang kemungkinan adanya kehidupan di luar Bumi. Salah satu metode utama dalam deteksi eksoplanet adalah metode kecepatan radial (RV), yang mengukur pergeseran spektrum cahaya bintang akibat pengaruh gravitasi planet yang mengorbitnya. Namun, metode kecepatan radial menghadapi tantangan besar dalam mendeteksi planet bermassa rendah seperti Gliese 667 Cc, yang berada di sistem bintang Gliese 667. Sistem ini, berjarak sekitar 23,16 tahun cahaya dari Bumi, menarik perhatian karena memiliki beberapa planet yang berada di zona layak huni . Tantangan utama dalam mendeteksi eksoplanet bermassa rendah adalah gangguan yang disebabkan oleh aktivitas bintang, seperti bintik bintang dan fluktuasi magnetik, yang menyebabkan variasi pada data RV dan dapat mengaburkan sinyal planet. Aktivitas bintang ini menciptakan noise non-linear yang menyulitkan deteksi planet kecil dengan akurasi tinggi.
+
+Gambar 1.1 Contoh Planet Extrasurya
+
+Pendekatan tradisional dalam memodelkan aktivitas bintang seringkali menggunakan metode statistik seperti Gaussian Process (GP), yang memiliki keterbatasan, terutama dalam menghadapi kompleksitas sinyal non-linear dan risiko overfitting. Oleh karena itu, diperlukan pendekatan yang lebih efisien untuk memisahkan sinyal aktivitas bintang dari sinyal planet dalam data RV. Salah satu solusi yang menjanjikan adalah penggunaan metode deep learning . Dalam konteks ini, penelitian ini mengusulkan pengembangan aplikasi katalog eksoplanet yang mengintegrasikan teknologi kecerdasan buatan, khususnya Convolutional Neural Network (CNN). Software ini dirancang untuk memproses data kecepatan radial secara otomatis, mengenali pola non-linear dengan lebih akurat, dan memisahkan sinyal aktivitas bintang dari sinyal pergeseran Doppler akibat keberadaan planet. Selain itu, aplikasi ini juga dilengkapi fitur visualisasi hasil deteksi dalam bentuk grafis interaktif, integrasi pelatihan model CNN, serta antarmuka pengguna yang intuitif untuk mendukung analisis data eksoplanet secara efisien.
+Metode deep learning telah banyak digunakan untuk berbagai penelitian karena kemampuannya dalam mengenali pola-pola kompleks dari data besar. Sebagai contoh, Convolutional Neural Network (CNN) telah diaplikasikan dalam deteksi wajah untuk sistem keamanan , identifikasi kebakaran melalui citra termal untuk mitigasi bencana , klasifikasi objek dalam citra satelit untuk pemetaan wilayah , klasifikasi citra satelit untuk manajemen sumber daya alam , hingga deteksi penyakit seperti kanker melalui analisis citra medis . Dalam konteks astronomi, CNN telah menunjukkan efektivitas dalam mendeteksi transit eksoplanet berdasarkan kurva cahaya, serta analisis spektral untuk mengidentifikasi keberadaan planet-planet kecil .
+Penelitian ini mengadopsi pendekatan berbasis deep learning, dengan memanfaatkan Convolutional Neural Network (CNN), untuk mengembangkan perangkat lunak deteksi eksoplanet Gliese 667 Cc melalui analisis data kecepatan radial (radial velocity). Software ini dikembangkan dengan mengikuti model Waterfall, yang mencakup tahapan analisis kebutuhan, desain sistem, implementasi, pengujian, dan pemeliharaan. Tujuan dari pendekatan ini adalah untuk menghasilkan aplikasi yang memiliki performa tinggi, akurasi optimal, dan kemudahan dalam pengoperasiannya .
+Backend aplikasi dibangun dengan menggunakan stack MERN, yaitu MongoDB, Express.js, React.js, dan Node.js. MongoDB digunakan untuk menyimpan dataset spektral bintang dan hasil analisis CNN, sementara Express.js dan Node.js digunakan untuk membangun API RESTful yang menghubungkan model CNN dengan antarmuka aplikasi, serta mendukung pengolahan data terdistribusi dengan komunikasi yang cepat dan aman. React.js berperan dalam menciptakan antarmuka pengguna (UI) yang responsif dan interaktif, yang memungkinkan visualisasi data spektral, hasil analisis, dan interpretasi grafik secara mudah.
+Model CNN dikembangkan menggunakan framework PyTorch untuk mendeteksi pola-pola kompleks dalam data spektral bintang. Data yang dianalisis berupa gambar spektral yang menunjukkan pergeseran panjang gelombang akibat efek Doppler yang disebabkan oleh interaksi gravitasi antara planet dan bintang induknya. Pengolahan data dilakukan dengan hati-hati untuk meminimalisir gangguan sinyal dari aktivitas bintang, seperti fluktuasi magnetik dan bintik bintang, guna meningkatkan akurasi dalam mendeteksi planet bermassa rendah .
+Pada tahap implementasi, penggunaan API RESTful memungkinkan integrasi yang lebih fleksibel antara model deep learning dan sistem aplikasi berbasis cloud. API ini memfasilitasi pertukaran data secara real-time antara komponen frontend dan backend, yang pada gilirannya mendukung pengolahan data yang lebih cepat dan efisien, lebih unggul dibandingkan metode konvensional seperti Gaussian Process (GP).
+Aplikasi ini diharapkan dapat menjadi solusi inovatif dalam penelitian eksoplanet, mempercepat penemuan planet-planet yang berada dalam zona layak huni, serta mendukung kolaborasi ilmiah antarpeneliti. Selain itu, aplikasi ini berpotensi menjadi platform yang handal untuk pengembangan lebih lanjut dalam teknologi deteksi eksoplanet berbasis CNN yang lebih canggih dan efisien di masa depan.
+
+1.2 Rumusan Masalah
+Rumusan masalah dalam penelitian ini difokuskan pada pengembangan perangkat lunak berbasis web yang memanfaatkan algoritma Convolutional Neural Network (CNN) untuk menganalisis dan memvisualisasikan data kecepatan radial dari dataset yang tersedia, khususnya untuk eksoplanet Gliese 667 Cc. Beberapa pertanyaan yang akan dijawab dalam penelitian ini adalah:
+Bagaimana cara merancang dan mengimplementasikan aplikasi berbasis web yang menggunakan model CNN untuk menganalisis data kecepatan radial eksoplanet Gliese 667 Cc dari dataset NASA Exoplanet Archive dan memperoleh informasi yang lebih mendalam mengenai karakteristiknya?
+Bagaimana cara mengembangkan aplikasi yang dapat memfilter gangguan dari aktivitas bintang pada data kecepatan radial dan meningkatkan akurasi analisis eksoplanet Gliese 667 Cc menggunakan model CNN?
+Bagaimana mengolah data eksoplanet dari dataset yang diperoleh menjadi visualisasi yang interaktif dan informatif pada aplikasi web untuk mendukung penelitian ilmiah terkait karakteristik eksoplanet dan zona layak huni dengan penerapan model CNN?
+1.3 Tujuan Penelitian
+Penelitian ini bertujuan untuk mengembangkan aplikasi yang menggunakan algoritma CNN untuk menghitung dan memprediksi parameter orbital eksoplanet Gliese 667 Cc secara akurat. Tujuan spesifik dari penelitian ini adalah:
+Merancang dan mengimplementasikan aplikasi berbasis web yang menggunakan model CNN untuk menganalisis data kecepatan radial eksoplanet Gliese 667 Cc dari dataset NASA Exoplanet Archive, dengan tujuan untuk memperoleh informasi yang lebih mendalam mengenai karakteristik eksoplanet tersebut.
+Mengembangkan sebuah aplikasi yang dapat memfilter gangguan akibat aktivitas bintang pada data kecepatan radial, serta meningkatkan akurasi analisis eksoplanet Gliese 667 Cc dengan menggunakan model Convolutional Neural Network (CNN).
+Mengolah data eksoplanet dari dataset yang tersedia dalam bentuk visualisasi interaktif dan informatif melalui aplikasi web, untuk mendukung penelitian ilmiah mengenai karakteristik eksoplanet dan zona layak huni dengan penerapan model CNN.
+
+
+1.4 Manfaat Penelitian
+Penelitian ini diharapkan memberikan berbagai manfaat, baik bagi peneliti, institusi pendidikan, maupun masyarakat luas, sebagai berikut:
+Bagi Peneliti: Penelitian ini dapat membantu peneliti untuk mengaplikasikan dan mengembangkan pemahaman di bidang teknologi machine learning dan astrofisika, khususnya dalam penghitungan parameter orbital planet ekstrasurya. Dengan terlibat dalam penelitian ini, peneliti dapat meningkatkan keterampilan dalam pemrograman, analisis data astronomi, serta pengembangan aplikasi berbasis kecerdasan buatan. Selain itu, penelitian ini mendukung peneliti dalam memanfaatkan algoritma CNN untuk mitigasi aktivitas bintang, sehingga sinyal eksoplanet dapat dideteksi lebih akurat.
+Bagi Institusi Pendidikan: Hasil dari penelitian ini dapat menjadi referensi dan bahan ajar bagi institusi pendidikan, khususnya program studi terkait dengan ilmu komputer dan astronomi. Selain itu, penelitian ini dapat mendukung pengembangan kurikulum yang lebih sesuai dengan kemajuan teknologi terkini, serta memberikan contoh konkret penerapan teori dalam proyek berbasis riset yang menggabungkan metode deep learning dan analisis data spektral untuk eksplorasi eksoplanet.
+Bagi Ilmu Pengetahuan: Penelitian ini diharapkan mampu menambah kontribusi ilmiah di bidang astrofisika dan kecerdasan buatan dengan menghadirkan aplikasi yang dapat mempermudah analisis eksoplanet. Penggunaan deep learning, khususnya model CNN, dalam penelitian eksoplanet dapat mempercepat proses deteksi dan analisis sinyal lemah eksoplanet di tengah gangguan aktivitas bintang. Hal ini juga membuka peluang untuk penemuan eksoplanet baru yang berpotensi layak huni.
+Bagi Komunitas Astronomi: Aplikasi yang dikembangkan dari penelitian ini akan sangat bermanfaat bagi astronom dan peneliti lainnya dalam mengidentifikasi serta menganalisis eksoplanet. Dengan kemampuan untuk menghitung parameter orbital secara akurat, aplikasi ini akan menjadi alat bantu penting dalam penelitian planet-planet di luar tata surya. Pendekatan yang lebih efisien dalam mitigasi aktivitas bintang ini dapat diadaptasi untuk berbagai jenis bintang, memberikan hasil analisis yang lebih handal.
+Bagi Masyarakat Luas: Penelitian ini membuka peluang untuk masa depan yang lebih luas dalam penjelajahan luar angkasa, dengan potensi menemukan planet yang mungkin layak huni. Pengetahuan tentang eksoplanet ini juga diharapkan dapat menginspirasi masyarakat untuk lebih memahami dan mendukung eksplorasi antariksa, serta menyadari pentingnya teknologi dalam pengembangan ilmu pengetahuan. Keterlibatan masyarakat dalam isu-isu sains modern ini juga diharapkan dapat mendorong inovasi di masa depan.
+
+1.5 Ruang Lingkup Penelitian
+            Ruang lingkup penelitian ini mencakup beberapa aspek utama untuk memastikan fokus dan efektivitas dalam mencapai tujuan yang telah ditetapkan, yaitu:
+Ruang Lingkup Identifikasi Masalah
+Tahap ini mencakup penentuan permasalahan utama yang akan ditangani dalam penelitian, yaitu mendeteksi eksoplanet Gliese 667 CC dengan menggunakan teknik Convolutional Neural Network (CNN). Identifikasi masalah ini menjadi dasar untuk menyusun tujuan penelitian dan mengarahkan seluruh proses penelitian ke arah yang tepat.
+Ruang Lingkup Studi Literatur
+Pada tahap studi literatur, penelitian ini akan mengkaji berbagai referensi yang berkaitan dengan deteksi eksoplanet, teknik CNN dalam analisis data astronomi, serta metode yang telah ada untuk mitigasi gangguan dari aktivitas bintang. Tujuannya adalah untuk memahami perkembangan terbaru di bidang astrofisika dan teknologi kecerdasan buatan, serta mengidentifikasi celah yang dapat diisi oleh penelitian ini.
+Ruang Lingkup Pengumpulan Data
+Pengumpulan data melibatkan pengambilan data kecepatan radial dan fotometrik yang berkaitan dengan bintang Gliese 667 CC. Data ini diperoleh melalui pengamatan bintang dan diakses melalui berbagai sumber, termasuk NASA Exoplanet Archive. Pengumpulan data bertujuan untuk menyediakan dataset yang diperlukan untuk melatih model CNN dan mendeteksi eksoplanet.
+Ruang Lingkup Perencanaan
+Tahap perencanaan mencakup desain metodologi yang akan digunakan dalam penelitian ini, termasuk rencana pengolahan data, pemilihan teknik deep learning yang sesuai, serta perencanaan infrastruktur perangkat lunak yang akan dikembangkan. Tahap ini juga menyusun jadwal dan pembagian tugas yang akan memfokuskan tim pada tujuan penelitian yang jelas.
+Ruang Lingkup Pemodelan
+Pada tahap pemodelan, model CNN akan dirancang dan dilatih dengan menggunakan data yang telah dikumpulkan dan diproses. Fokus utama dalam ruang lingkup ini adalah pengembangan model yang efektif untuk mendeteksi eksoplanet, dengan memperhatikan optimasi parameter dan pengurangan noise dari gangguan aktivitas bintang.
+Ruang Lingkup Pembuatan Aplikasi
+Pembuatan aplikasi melibatkan pengembangan perangkat lunak berbasis CNN yang dapat digunakan untuk mendeteksi eksoplanet dan menganalisis data astronomi. Aplikasi ini dirancang agar mudah digunakan oleh astronom dan peneliti, serta dilengkapi dengan antarmuka yang ramah pengguna untuk memvisualisasikan hasil deteksi.
+Ruang Lingkup Pengujian
+Pengujian aplikasi dan model akan dilakukan untuk memastikan bahwa perangkat lunak berfungsi dengan baik dan menghasilkan prediksi yang akurat. Pengujian dilakukan dengan membandingkan hasil dari model yang dikembangkan dengan data pengujian yang tidak digunakan dalam pelatihan model, serta dengan data referensi dari observatorium astronomi.
+Ruang Lingkup Penerapan
+Tahap penerapan mencakup penggunaan aplikasi dalam penelitian eksoplanet yang lebih luas, di mana aplikasi ini dapat digunakan oleh komunitas astronomi untuk mempercepat analisis data kecepatan radial dan fotometrik dalam mencari eksoplanet. Aplikasi yang dikembangkan dapat diterapkan dalam penelitian eksoplanet lebih lanjut, baik di tingkat observasi maupun pengolahan data.
+
+1.6 Luaran Yang Diharapkan
+ Luaran yang diharapkan dari penelitian ini adalah sebagai berikut:
+Algoritma Berbasis CNN untuk Deteksi Eksoplanet: Menghasilkan algoritma yang mampu mendeteksi eksoplanet dan menghitung parameter orbitalnya dengan akurasi tinggi menggunakan pendekatan deep learning. Algoritma ini dirancang untuk mengurangi gangguan dari aktivitas bintang dengan memanfaatkan representasi spektral khusus, sehingga sinyal eksoplanet dapat teridentifikasi secara lebih efektif.
+Kontribusi bagi Komunitas Astronomi dalam Deteksi Eksoplanet: Algoritma ini diharapkan dapat menjadi alat yang signifikan bagi komunitas astronomi dalam mendeteksi eksoplanet, termasuk identifikasi planet-planet kecil dan evaluasi potensi kelayakhunian mereka. Dengan demikian, penelitian ini dapat mendukung pengembangan metode deteksi eksoplanet yang lebih presisi di masa depan.
+Dataset dan Model CNN: Dokumentasi lengkap dari dataset dan model CNN yang dikembangkan, memungkinkan peneliti lain untuk mereplikasi dan mengembangkan penelitian ini lebih lanjut. Dataset dan model yang dibagikan akan mendukung kolaborasi dan penelitian bersama dalam komunitas ilmiah, terutama dalam penerapan teknik deep learning untuk astronomi.
+1.7 Sistematika Penulisan	
+Proposal skripsi ini disusun berdasarkan sistematika penulisan yang dibagi menjadi beberapa bab sebagai berikut:
+BAB 1 PENDAHULUAN
+Bab ini menjelaskan latar belakang penelitian, rumusan masalah, tujuan
+penelitian, manfaat penelitian, ruang lingkup penelitian, luaran yang diharapkan, dan sistematika penulisan yang digunakan. Tujuannya adalah memberikan gambaran umum mengenai alasan dan pentingnya penelitian ini dalam konteks optimasi deteksi eksoplanet Gliese 667 Cc menggunakan algoritma Convolutional Neural Network (CNN) berbasis data kecepatan radial.
+BAB II LANDASAN TEORI
+Bab ini berisi teori-teori dasar dan definisi yang relevan dengan penelitian, seperti konsep eksoplanet dan sistem bintang Gliese 667, metode deteksi eksoplanet berbasis kecepatan radial, serta algoritma deep learning, khususnya CNN, yang diterapkan dalam penelitian ini. Bab ini juga mengulas penelitian terdahulu terkait deteksi eksoplanet dan mitigasi aktivitas bintang untuk membangun dasar teoretis penelitian. Fokus utama pada bab ini adalah penjelasan mendalam mengenai bagaimana pengembangan perangkat lunak menggunakan teknologi deep learning, khususnya CNN, dapat memberikan solusi optimal dalam analisis data astronomi, serta berbagai tantangan yang dihadapi dalam pengembangan perangkat lunak tersebut.
+BAB III METODE PENELITIAN
+Bab ini membahas metode yang digunakan dalam penelitian, meliputi desain penelitian, metode pengumpulan dan pengolahan data, serta perangkat lunak yang digunakan. Bab ini juga menjelaskan tahapan pengembangan algoritma CNN yang dirancang untuk mengoptimalkan deteksi eksoplanet Gliese 667 Cc dengan memitigasi gangguan aktivitas bintang pada data kecepatan radial. Tahapan pengembangan perangkat lunak akan dijelaskan secara rinci, mulai dari perancangan antarmuka pengguna (user interface), pemilihan framework dan pustaka yang digunakan, hingga pengujian perangkat lunak untuk memastikan kinerja model CNN yang optimal. Penelitian ini menekankan aspek praktis dari pengembangan perangkat lunak yang akan menjadi alat bantu bagi astronom dalam menganalisis data kecepatan radial dan fotometrik untuk mendeteksi eksoplanet secara akurat.
+DAFTAR PUSTAKA
+Daftar Pustaka berisi daftar referensi yang digunakan dalam penelitian ini sebagai acuan teori, metode, dan konsep yang relevan.
+
+
+BAB II
+TINJAUAN PUSTAKA
+2.1 Planet Extrasurya
+Planet extrasurya merupakan planet yang mengorbit Bintang selain matahari, Klasifikasi eksoplanet bukanlah masalah mendefinisikan “planet.” Sesuai dengan namanya, eksoplanet sudah dianggap sebagai planet, dan masalahnya adalah mendefinisikan kelas-kelas planet pada takson lain di bawah sistem klasifikasi (Dick, S.J. 2024). Menurut  definisi Planet extrasurya menurut IAU adalah:
+1. Objek dengan massa sebenarnya di bawah massa pembatas untuk fusi termonuklir deuterium (saat ini dihitung menjadi 13 massa Jupiter untuk objek metalisitas matahari) yang mengorbit bintang, katai coklat atau sisa-sisa bintang dan yang memiliki rasio massa dengan objek pusat di bawah ketidakstabilan L4/L5 (M/Mcentral < 2/(25+√621) ≈ 1/25) adalah "planet" (tidak peduli bagaimana planet ekstrasurya tersebut terbentuk). Massa/ukuran minimum yang diperlukan agar objek ekstrasurya dianggap sebagai planet harus sama dengan yang digunakan dalam Tata Surya kita. 
+2. Objek subbintang dengan massa sebenarnya di atas massa pembatas untuk fusi termonuklir deuterium adalah "katai coklat", tidak peduli bagaimana mereka terbentuk atau di mana mereka berada. 
+3. Objek yang mengambang bebas di gugusan bintang muda dengan massa di bawah massa pembatas untuk fusi termonuklir deuterium bukanlah “planet”, tetapi “sub-katai coklat” (atau nama apa pun yang paling tepat).
+
+Penemuan dan karakterisasi eksoplanet layak huni (yaitu, planet yang dapat mempertahankan air cair yang stabil di permukaannya telah ditetapkan sebagai salah satu tujuan dekade utama untuk astronomi, ilmu planet, dan astrobiologi. Konsep misi yang disebut Habitable Worlds Observatory (HWO) sedang dikembangkan oleh NASA untuk membantu mencapai tujuan mendalam ini. Yang terpenting, HWO dibangun di atas keberhasilan misi konsep pencitraan langsung berbasis ruang angkasa sebelumnya, seperti Habitable Exoplanet Observatory dan Large Ultraviolet/Optical/Infrared Surveyor. Demonstrasi koronagraf sebagai bagian dari Teleskop Luar Angkasa Nancy Grace Roman NASA yang akan segera diluncurkan juga akan memberikan wawasan utama tentang teknik pencitraan kontras tinggi eksoplanet berbasis ruang angkasa.
+
+Gambar 2.1 Contoh Planet Extrasurya Yang Layak Huni
+2.1.1 Sistem Bintang Gliese 667 dan Potensinya
+Gliese 667 adalah Sistem dengan tiga Bintang di konstelasi Scorpius yang berjarak sekitar 23 tahun Cahaya dari bumi. Ketiga Bintang tersebut memiliki massa yang lebih kecil daripada matahari. bintang tipe M1.5V dengan sistem multi-planet, termasuk kandidat planet di zona layak huni. Di dalam sistem Bintang Gliese 667 ada 3 bintang yaitu Gliese 667 A, Gliese 667 B, dan Gliese 667 C. Diantara sistem tiga Bintang ini yang memiliki planet ekstrasurya adalah Gliese 667 C, Gliese 667 C adalah Bintang dengan massa sekitar 33% dari massa matahri dan radiusnya sekitar 34% dari radius matahari. Tipe bintang Gliese 667 c adalah katai merah dengan temperature sekitar 3400 K.
+Gliese 667 C memiliki beberapa planet yang mengorbit di sekitarnya, dan beberapa di antaranya berada dalam zona layak huni, yaitu area di sekitar bintang di mana suhu memungkinkan keberadaan air dalam bentuk cair di permukaan planet. Hal ini memberikan potensi bahwa planet-planet tersebut mungkin dapat mendukung kehidupan atau memiliki kondisi yang mirip dengan Bumi. Di antara planet-planet yang mengorbit Gliese 667 C, salah satu yang paling menarik adalah Gliese 667 Cc, yang ditemukan berada dalam zona layak huni bintang tersebut. Planet ini memiliki massa sekitar 4,5 kali massa Bumi, yang membuatnya tergolong dalam kategori "super-Bumi”. Dengan jarak sekitar 23 tahun cahaya dari Bumi, Gliese 667 Cc dan planet-planet lain di sistem ini menjadi objek menarik bagi para ilmuwan yang mencari kemungkinan adanya kehidupan di luar tata surya kita. Suhu permukaan di Gliese 667 Cc diperkirakan cocok untuk air cair, tergantung pada komposisi atmosfernya, yang sayangnya masih belum diketahui secara pasti. Meskipun sistem ini terdiri dari bintang-bintang yang lebih redup dibandingkan Matahari, kehadiran zona layak huni tetap menunjukkan bahwa Gliese 667 adalah salah satu kandidat sistem yang berpotensi mendukung kehidupan, atau setidaknya memiliki lingkungan yang cukup stabil bagi keberlangsungan ekosistem. 
+
+                          Gambar 2.2 Perbandingan Antara Sistem Gliese 667 C dengan Tata Surya
+                           
+2.1.2 Planet Ekstrasurya Gliese 667 Cc
+Gliese 667 Cc adalah salah satu planet ekstrasurya yang paling menarik dalam pencarian kehidupan di luar Bumi. Ditemukan dalam sistem bintang Gliese 667, yang terletak sekitar 23,16 tahun cahaya dari Bumi, planet ini memiliki massa sekitar 4,5 kali massa Bumi dan berada di zona layak huni bintang induknya . Zona layak huni adalah area di sekitar bintang di mana kondisi memungkinkan adanya air dalam bentuk cair, yang dianggap sebagai salah satu syarat penting untuk mendukung kehidupan. Keberadaan air cair sangat penting karena merupakan elemen dasar bagi kehidupan seperti yang kita kenal.
+Gliese 667 Cc mengorbit bintang katai merah Gliese 667 C dengan periode orbit sekitar 28 hari. Bintang ini memiliki karakteristik yang berbeda dibandingkan dengan bintang-bintang seperti Matahari. Dengan suhu permukaan yang lebih rendah dan luminositas yang lebih rendah, bintang katai merah ini memiliki stabilitas yang lebih baik, sehingga dapat mendukung planet-planet yang mengorbitnya dalam jangka waktu yang lama. Keberadaan planet di zona layak huni bintang semacam ini memberikan harapan untuk menemukan kondisi yang mendukung kehidupan.
+Salah satu keunikan Gliese 667 Cc adalah bahwa ia berada dalam sistem multi-planet yang terdiri dari setidaknya tiga planet lainnya. Penemuan sistem planet ini menunjukkan bahwa bintang katai merah dapat memiliki beberapa planet yang berpotensi layak huni. Selain Gliese 667 Cc, terdapat juga Gliese 667 Ce dan Gliese 667 Cf, yang masing-masing memiliki karakteristik unik dan jarak orbit yang berbeda . Hal ini menciptakan peluang untuk penelitian lebih lanjut mengenai dinamika planet dalam sistem ini dan kemungkinan interaksi antara planet-planet tersebut.
+Namun, meskipun Gliese 667 Cc berada dalam zona layak huni, tantangan dalam mendeteksi atmosfernya tetap ada. Pengukuran yang dilakukan dengan metode kecepatan radial sering kali dipengaruhi oleh aktivitas bintang, yang dapat mengaburkan sinyal yang menunjukkan keberadaan atmosfer planet. Oleh karena itu, pendekatan baru seperti penggunaan Convolutional Neural Networks (CNN) dapat membantu dalam mengidentifikasi pola-pola yang lebih halus dalam data kecepatan radial, meningkatkan kemungkinan untuk mendeteksi atmosfer dan karakteristik lainnya dari Gliese 667 Cc.
+
+                       Gambar 2.3 Planet Gliese 667 Cc                  
+2.2 Kecepatan Radial (Radial Velocity)
+  	Dalam astronomi, kecepatan radial adalah kecepatan suatu objek sepanjang garis pandang dari pengamat ke objek tersebut, yaitu sepanjang vektor radius menuju objek. Kecepatan radial biasanya dihitung menggunakan pergeseran Doppler pada garis spektral yang diamati, dengan rumus Δλ/λ = v/c, di mana Δλ adalah pergeseran panjang gelombang yang diamati untuk objek tersebut dibandingkan dengan panjang gelombang keseluruhan, λ; v adalah kecepatan objek sepanjang garis pandang; dan c adalah kecepatan cahaya, yaitu 299.792 km/detik . Pergeseran ke panjang gelombang yang lebih panjang, sering disebut pergeseran merah (redshift), menunjukkan kecepatan positif menjauhi pengamat. Jika kecepatan objek signifikan dibandingkan dengan kecepatan cahaya, maka rumus versi relativistik harus digunakan. Kecepatan radial bintang biasanya dinyatakan relatif terhadap Matahari (heliosentris) atau relatif terhadap pusat massa Tata Surya (Barycentric) ketika dibutuhkan pengukuran kecepatan yang sangat presisi .
+Radial Velocity sebagai konsep didalam astronomi, dan suatu kuantitas yang ketepatan penentuannya telah meningkat secara signifikan dalam beberapa tahun terakhir. Maknanya secara umum dipahami sebagai gerakan objek sepanjang garis pandang, suatu kuantitas yang biasanya disimpulkan dari perpindahan garis spektrum yang diamati, yang ditafsirkan sebagai pergeseran Doppler. Radial Velocity digunakan untuk membuat penemuan Planet ekstrasurya pertama di sekitar bintang-bintang seperti Matahari dan terus memainkan peran utama dalam penemuan dan karakterisasi sistem planet ekstrasurya . Dengan lebih dari 250 planet ekstrasurya, Radial Velocity adalah teknik paling produktif hingga saat ini dan telah menghasilkan banyak penemuan penting, seperti planet tipe Jupiter, sistem multiplanet, planet transit di sekitar bintang terang, korelasi planet-metalitas, planet di sekitar katai M dan bintang bermassa menengah, dan baru-baru ini, munculnya populasi planet bermassa rendah: planet bermassa Neptunus dan Bumi super. Dalam waktu dekat, radial velocity diharapkan dapat secara sistematis menjelajahi domain planet berbatu dan es hingga beberapa massa Bumi yang dekat dengan zona layak huni bintang induknya. Pengukuran kecepatan radial juga akan digunakan untuk menyediakan pengamatan lanjutan yang diperlukan terhadap kandidat transit yang terdeteksi oleh misi antariksa. Terakhir, dicatat sebuah teknik kecepatan radial alternatif yang mungkin memainkan peran penting di masa mendatang .
+Pada tahun 1888, Vogel di Potsdam menggunakan fotografi untuk menunjukkan teori Christian Doppler bahwa bintang yang bergerak sepanjang garis pandang teleskop akan menunjukkan perubahan warna. Perubahan warna ini, atau pergeseran panjang gelombang, umumnya dikenal sebagai Doppler shift, dan telah menjadi alat yang ampuh selama abad ini, yang digunakan untuk mengukur kinematika bintang, menentukan parameter orbital untuk sistem biner bintang, dan mengidentifikasi denyutan Bintang . Pada tahun 1953, radial velocity telah dikompilasi untuk lebih dari 15.000 bintang dalam Katalog Umum Radial Velocity Bintang dengan presisi khas 750 m s-1, bukan presisi yang biasanya dikaitkan dengan perburuan planet . Namun, pada saat itu, O. Struve mengusulkan bahwa pekerjaan kecepatan radial bintang presisi tinggi dapat digunakan untuk mencari planet yang mengorbit bintang-bintang terdekat. Dia membuat pernyataan yang luar biasa bahwa planet-planet seperti Jupiter dapat berada sedekat 0,02 AU dari bintang induknya. Lebih jauh, dia mencatat bahwa jika planet-planet yang berdekatan tersebut memiliki massa 10 kali massa Jupiter, kecepatan bintang refleks untuk orbit tepi akan menjadi sekitar 2 km s-1 dan dapat dideteksi dengan presisi Doppler tahun 1950-an. Dua dekade kemudian, mengidentifikasi kelemahan utama dalam teknik kecepatan radial pada siang hari; spektrum bintang diukur sehubungan dengan spektrum emisi. Namun, lampu kalibrasi (biasanya thorium argon) tidak menerangi celah dan kolimator spektrometer dengan cara yang sama seperti bintang. Griffin menguraikan strategi untuk meningkatkan presisi Doppler hingga 10 ms-1 yang luar biasa dengan mengukur pergeseran garis bintang secara berbeda terhadap garis telurik . Dengan asumsi bahwa garis telurik diam relatif terhadap spektrometer, garis serapan ini akan menelusuri jalur cahaya bintang dan menerangi optik dengan cara yang sama dan pada saat yang sama seperti bintang. Meskipun Griffin tidak memperoleh presisi setinggi ini, mereka telah menyoroti beberapa tantangan utama yang telah diatasi oleh teknik saat ini . 
+Metode Radial Velocity telah terbukti menjadi metode yang ampuh untuk mendeteksi dan mengkarakterisasi exoplanet. Generasi survei berikutnya kini berupaya untuk mencapai presisi kecepatan radial 10–30 cm/s untuk memungkinkan pendeteksian planet bermassa Bumi di zona layak huni bintang seperti Matahari. Namun, mencapai presisi radial velocity ekstrem seperti itu menghadirkan tantangan besar. Banyak efek yang dapat diabaikan dalam penelitian sebelumnya menyebabkan pergeseran kecepatan radial nyata pada orde puluhan cm/s, tingkat yang sama dengan planet target. Ekstraksi optimal telah menjadi standar untuk jalur kecepatan radial dalam beberapa tahun terakhir.
+
+Gambar 2.4 Metode Pendeteksian Exoplanet Menggunakan Radial Velocity
+2.3 Convolutional Neural Network (CNN) 
+Menurut . Convolutional Neural Network (CNN) adalah algoritma deep learning yang dirancang untuk menganalisis data berbentuk grid, seperti citra digital atau sinyal spektral. CNN menggunakan operasi konvolusi sebagai inti perhitungannya untuk mengekstraksi fitur penting dari data masukan. Operasi konvolusi ini dilakukan melalui filter (kernel) yang dilatih selama proses pelatihan. Filter ini bergerak melintasi data masukan untuk menghitung produk skalar antara elemen filter dan area masukan yang sesuai, menghasilkan peta fitur (feature map). Peta fitur ini merepresentasikan pola spesifik seperti bentuk, tekstur, atau gradien intensitas yang relevan dengan tugas tertentu. 
+Untuk bagian dari arsitekturnya, CNN terdiri dari tiga komponen utama: lapisan konvolusi, lapisan pooling, dan lapisan fully connected. Lapisan Konvolusi bertugas untuk mengekstraksi fitur dari data masukan menggunakan filter yang telah dilatih. Lalu Peta fitur dihasilkan dari kombinasi bobot (weights) dan bias filter, yang disesuaikan selama pelatihan. Pada lapisan konvolusi, filter mempelajari fitur dasar dari data masukan untuk membentuk representasi awal dari pola-pola tertentu. Lapisan pooling bertujuan untuk mereduksi dimensi peta fitur tanpa menghilangkan informasi penting. kemudian digunakan untuk mengurangi dimensi data, mempercepat proses komputasi, sekaligus mengurangi risiko overfitting . Lapisan pooling mempunyai fitur Max poolig Dimana nilai tertinggi akan dipertahankan, sedangkan average pooling menghitung rata-rata nilai. Akhirnya, data diproses melalui lapisan fully connected, yang bertugas menghubungkan fitur yang telah diekstraksi dengan output akhir, seperti prediksi kelas atau probabilitas. Di tahap fully connected, data dari lapisan sebelumnya akan diratakan (flattened) menjadi vektor satu dimensi. Lapisan Fully connected  menggunakan fungsi aktivasi seperti ReLU untuk memperkenalkan non-linearitas dan softmax untuk menghasilkan probabilitas keluaran .
+
+Gambar 2.5 Skematik Diagram dari Convolutional Neural Network (CNN)
+Langkah-langkah proses CNN dimulai dari Preprocessing Data, Dimana data dinormalisasi agar nilai berada dalam rentang tertentu (0 hingga 1), mempercepat pelatihan dan stabilitas model. Lalu ada konvolusi Dimana filter dierapkan untuk menghasilkan peta fitur dan Setiap filter mendeteksi pola tertentu dalam data, seperti tepi atau gradien intensitas. Setelah itu diterapkan pooling untuk mengurangi dimensi data sambil mempertahankan fitur utama. Lalu Peta fitur diratakan menjadi vektor dan diteruskan ke fully connected layer. Pada tahap terakhir outputnya bisa divalidasi menggunakan F1 Score untuk mengukur keseimbangan antara presisi dan recall 
+Mekanisme filter, fungsi aktivasi, dan backpropagation bekerja secara bersamaan untuk mengoptimalkan kinerja jaringan CNN. Filter (atau kernel) berfungsi dengan menghitung produk skalar antara elemen data masukan dan parameter filter, menghasilkan peta fitur yang merepresentasikan pola-pola spesifik pada area tertentu. Selanjutnya, fungsi aktivasi seperti ReLU (Rectified Linear Unit) memperkenalkan non-linearitas dengan memetakan nilai negatif menjadi nol, memungkinkan jaringan untuk mempelajari hubungan non-linear yang kompleks dalam data. Proses backpropagation digunakan untuk menghitung gradien dari fungsi kerugian dan memperbarui bobot filter menggunakan algoritma optimasi seperti Adam. Proses ini dilakukan berulang kali hingga fungsi kerugian mencapai nilai minimum yang diinginkan, yang menunjukkan bahwa model telah mencapai hasil yang optimal.
+Dalam penelitian ,CNN dioptimalkan untuk mendeteksi eksoplanet berdasarkan data kecepatan radial. Data spektral diolah menggunakan teknik representasi spektral, seperti Shell Spectral Representation, yang dirancang untuk memisahkan sinyal aktivitas bintang dari sinyal eksoplanet. Representasi ini memungkinkan model untuk lebih sensitif terhadap perubahan profil garis spektral yang relevan dengan keberadaan planet. Penelitian ini juga memanfaatkan parameter seperti kecepatan radial, Full Width at Half Maximum (FWHM), dan Bisector Inverse Span (BIS) untuk meningkatkan akurasi deteksi . CNN dalam penelitian ini berhasil menurunkan ambang deteksi hingga 0.2 m/s pada dataset HARPS-N, memungkinkan identifikasi planet bermassa rendah dalam zona layak huni .
+Proses kerja CNN dimulai dari tahap preprocessing, di mana data dinormalisasi untuk menyelaraskan nilai masukan dan noise dari aktivitas bintang dihilangkan. Kemudian, data melalui serangkaian lapisan konvolusi yang menggunakan kernel untuk mendeteksi fitur tertentu. Lapisan pooling diterapkan untuk mereduksi dimensi data tanpa kehilangan informasi penting. Data yang telah diproses diratakan menjadi bentuk vektor melalui flattening, kemudian dilanjutkan ke lapisan fully connected untuk menghasilkan output akhir berupa prediksi sinyal eksoplanet . Model CNN diuji dengan menggunakan metrik evaluasi seperti F1 Score untuk memastikan akurasi dan keandalan model dalam mendeteksi sinyal eksoplanet meskipun terdapat noise signifikan dari aktivitas bintang.
+2.4  Studi Kasus Implementasi CNN dalam Deteksi Exoplanet
+         Studi kasus implementasi CNN dalam deteksi exoplanet bertujuan untuk memahami bagaimana teknologi deep learning, khususnya Convolutional Neural Network (CNN), digunakan untuk mendeteksi planet di luar tata surya dengan analisis data dari teleskop. Exoplanet biasanya dideteksi melalui variasi kecerahan bintang induk saat planet tersebut melintas di depannya. Metode deteksi transit ini menghasilkan kurva cahaya yang mengindikasikan adanya penurunan kecerahan bintang, yang bisa dianalisis lebih lanjut dengan CNN untuk mengenali pola transit yang khas. Dengan kemampuan CNN dalam mengenali pola spasial, algoritma ini telah menunjukkan efisiensi tinggi dalam memproses data yang kompleks dan besar dari kurva cahaya Bintang.
+CNN bekerja dengan cara melatih model pada dataset kurva cahaya bintang yang telah diketahui mengandung atau tidak mengandung planet. Pada tahap awal, data diproses melalui beberapa lapisan konvolusi yang mengekstraksi fitur dari pola kecerahan bintang. Setiap lapisan konvolusi bertujuan untuk mengidentifikasi karakteristik spesifik dari sinyal transit, seperti durasi, kedalaman, dan simetri. Proses ini mengurangi kompleksitas data secara bertahap sehingga hanya informasi yang paling relevan yang dihasilkan pada lapisan akhir. Dengan cara ini, CNN dapat mengenali pola transit dari exoplanet kecil, yang sulit dideteksi dengan metode tradisional karena penurunan kecerahannya yang sangat kecil.
+Selain mendeteksi keberadaan exoplanet, CNN juga mampu menghitung parameter orbital seperti periode orbit dan radius planet. Dalam proses ini, model CNN dilatih menggunakan data bintang yang telah teridentifikasi parameter orbitnya, sehingga model belajar mengenali pola yang berkaitan dengan parameter tertentu. Hasilnya, CNN dapat mengidentifikasi nilai parameter dengan akurasi yang relatif tinggi, tanpa memerlukan analisis manual yang memakan waktu . Parameter orbit yang dihasilkan oleh model dapat memberikan informasi mengenai karakteristik fisik exoplanet, seperti massa dan jarak dari bintang induk, yang berguna dalam mengidentifikasi potensi layak huni dari planet tersebut.
+Implementasi CNN untuk deteksi exoplanet juga melibatkan penggunaan data dari teleskop luar angkasa seperti Kepler dan TESS, yang mengamati ribuan bintang secara simultan. CNN sangat efektif dalam memproses data besar ini karena kemampuannya untuk berjalan secara paralel dan cepat melalui arsitektur berbasis GPU. Dengan CNN, ribuan kurva cahaya dapat dianalisis dalam waktu singkat, memungkinkan deteksi planet secara real-time. Teknologi ini menjadikan CNN sebagai alat penting dalam studi exoplanet, karena meningkatkan efisiensi deteksi dan akurasi tanpa memerlukan pengawasan manusia secara langsung . Aplikasi CNN dalam deteksi exoplanet telah membuka era baru dalam penelitian astronomi. Dengan terus mengembangkan teknik ini, para ilmuwan berharap dapat menemukan lebih banyak exoplanet, termasuk planet yang mungkin mendukung kehidupan. CNN bukan hanya mempercepat proses deteksi tetapi juga memungkinkan eksplorasi yang lebih luas terhadap karakteristik bintang dan planet yang belum pernah terungkap sebelumnya .
+
+Gambar 2.6 Salah Satu Contoh Alur Proses dari Pengaplikasian CNN Untuk Deteksi Exoplanet (Valizadegan et al., n.d.)
+2.5  Library Untuk Penelitian
+   Library yang akan digunakan untuk penelitian ini adalah PyTorch, PyLightcurve-Torch, dan Astropy. PyTorch adalah framework deep learning yang populer di kalangan peneliti karena kemudahan penggunaannya dan kemampuan untuk melakukan perhitungan dinamis. PyTorch memungkinkan pengembang untuk menulis kode yang lebih bersih dan lebih mudah dipahami, serta menyediakan alat yang kuat untuk debugging. Selain itu, PyTorch memiliki komunitas yang aktif dan banyak sumber daya yang tersedia, sehingga memudahkan pengguna untuk mendapatkan dukungan dan tutorial.
+PyLightcurve-Torch adalah pustaka yang dikembangkan khusus untuk analisis kurva cahaya dalam konteks astronomi, yang mendukung implementasi deep learning. Dalam penelitian ini, PyLightcurve-Torch digunakan untuk memproses data fotometrik dari planet ekstrasurya. Pustaka ini memungkinkan analisis terhadap perubahan kecerahan bintang selama transit planet, yang kemudian digunakan sebagai input untuk model deep learning yang memprediksi parameter orbital seperti jarak orbit, eksentrisitas, dan kemiringan orbit . PyLightcurve-Torch menyediakan berbagai fungsi yang memudahkan penanganan data kurva cahaya yang kompleks, seperti yang diperoleh dari observasi menggunakan misi seperti Kepler. Selain itu, pustaka ini memiliki integrasi yang kuat dengan PyTorch, sehingga mempermudah pelatihan model deep learning dengan dataset yang besar dan kompleks, serta memungkinkan eksperimen lebih lanjut untuk meningkatkan akurasi prediksi parameter orbital planet ekstrasurya.
+      Astropy adalah pustaka Python yang menyediakan berbagai alat dan fungsi untuk analisis data astronomi. Dalam penelitian ini, Astropy digunakan untuk memfasilitasi pengolahan data dan analisis parameter orbital planet ekstrasurya. Pustaka ini mencakup modul untuk konversi unit, manipulasi waktu, dan pengolahan data, yang sangat berguna dalam mengelola informasi yang diperoleh dari observasi astronomi . Dengan kemampuan Astropy untuk menangani data dalam format yang berbeda, peneliti dapat dengan mudah mengakses dan menganalisis dataset yang relevan, seperti data kecepatan radial dan fotometri. Pustaka ini juga menyediakan fungsi yang mendukung pengolahan waktu yang diperlukan dalam analisis transit planet, serta kalkulasi yang diperlukan untuk menilai habitabilitas planet ekstrasurya. Penggunaan Astropy dalam penelitian ini membantu memastikan bahwa data yang diproses akurat dan sesuai dengan standar analisis astronomi, sehingga mendukung pengembangan aplikasi yang dapat menghitung parameter orbital secara efektif. 
+2.6  Python
+Python adalah bahasa pemrograman yang sangat populer dan banyak digunakan dalam penelitian serta pengembangan aplikasi berbasis data. Dalam konteks penelitian ini, Python dipilih karena sintaksisnya yang sederhana dan kemudahan dalam mengimplementasikan algoritma deep learning. Keberadaan banyak pustaka yang mendukung, seperti PyTorch, PyLightcurve-Torch, dan Astropy, memungkinkan peneliti untuk dengan cepat mengembangkan dan menguji model yang diperlukan untuk menghitung parameter orbital planet ekstrasurya. Kemampuan Python untuk menangani data dalam jumlah besar dan kompleks menjadikannya pilihan yang ideal untuk proyek ini. Selain itu, dukungan komunitas yang luas dan ketersediaan dokumentasi serta tutorial yang komprehensif membuat proses pengembangan menjadi lebih efisien. Dengan menggunakan Python, peneliti dapat fokus pada implementasi algoritma dan analisis data, tanpa terbebani oleh kerumitan bahasa pemrograman lainnya. Dalam penelitian ini, Python berfungsi sebagai platform utama untuk membangun aplikasi yang mampu menghitung dan memprediksi parameter orbital dengan akurasi tinggi, serta mendukung kolaborasi dengan berbagai pustaka dan framework yang relevan dalam bidang astronomi.
+2.7  Aplikasi Penelitian
+Aplikasi penelitian ini dikembangkan dengan menggunakan Python sebagai bahasa pemrograman utama untuk backend, sedangkan antarmuka pengguna (frontend) dirancang menggunakan teknologi berbasis web yang memungkinkan interaksi intuitif. Python digunakan untuk memanfaatkan pustaka seperti PyTorch untuk model deep learning dan Astropy untuk analisis data astronomi, yang memberikan fleksibilitas dan kekuatan dalam mengolah dataset besar dari observasi astronomi. Backend aplikasi ini diimplementasikan dengan memanfaatkan Flask, framework Python yang memungkinkan pengelolaan API dan proses server secara efisien.
+Frontend aplikasi dirancang untuk memberikan pengalaman pengguna yang sederhana namun efektif. Antarmuka pengguna dikembangkan dengan menggunakan teknologi modern seperti HTML, CSS, dan JavaScript, yang memungkinkan aplikasi ini diakses melalui browser dengan tampilan yang responsif. Proses pengembangan dilakukan di lingkungan Visual Studio Code, yang menawarkan fitur seperti debugging, integrasi sistem kontrol versi, dan penyelesaian otomatis kode untuk meningkatkan produktivitas pengembang.
+
+2.8  Framework Aplikasi
+Framework yang digunakan dalam pengembangan aplikasi ini adalah kombinasi Flask, Python, React.js, PyTorch, dan MongoDB. Framework ini dipilih karena fleksibilitas, performa tinggi, dan kemudahan integrasi antar komponen, yang mendukung pengembangan aplikasi web berbasis katalog exoplanet secara efektif. Flask digunakan sebagai kerangka kerja backend untuk menangani REST API, memungkinkan frontend untuk berkomunikasi dengan basis data serta menjalankan model Convolutional Neural Network (CNN) yang digunakan untuk analisis data kecepatan radial exoplanet, khususnya Gliese 667Cc. Python mendukung pengelolaan data, pemrosesan analitik, dan implementasi CNN dengan memanfaatkan pustaka PyTorch. PyTorch dipilih karena fleksibilitas dan performanya dalam membangun, melatih, dan mengoptimalkan model pembelajaran mesin.
+React.js digunakan untuk membangun antarmuka pengguna yang dinamis dan responsif. Antarmuka ini dirancang untuk memvisualisasikan data exoplanet, termasuk informasi seperti nama planet, massa, radius, eksentrisitas orbit, dan parameter lain yang relevan. Data ini ditampilkan secara real-time melalui integrasi dengan API yang disediakan oleh backend Flask. React juga mendukung fitur hot reloading, yang memungkinkan pembaruan antarmuka secara instan selama pengembangan.
+Untuk penyimpanan data, aplikasi ini menggunakan MongoDB, basis data NoSQL yang mampu menangani data tidak terstruktur dengan fleksibilitas tinggi. MongoDB memungkinkan penyimpanan data eksoplanet seperti parameter bintang, planet, dan hasil analisis CNN secara efisien. Integrasi antara Flask dan MongoDB dilakukan menggunakan pustaka PyMongo, memastikan pengelolaan data yang cepat dan andal.
+Aplikasi ini dirancang untuk membantu peneliti dan pengguna dalam menganalisis serta memvisualisasikan data kecepatan radial Gliese 667Cc. Data tersebut diproses melalui model CNN untuk mengidentifikasi pola atau anomali yang berkaitan dengan keberadaan exoplanet. Hasil analisis divisualisasikan melalui antarmuka yang user-friendly, memberikan pengalaman interaktif dalam memahami hubungan antara parameter bintang dan planet.
+
+2.9 Dataset
+Dalam penelitian ini, dataset yang digunakan merupakan komponen penting yang mendukung analisis dan perhitungan parameter orbital planet ekstrasurya. Dataset ini terdiri dari data yang relevan dan berkualitas tinggi yang diperoleh dari berbagai sumber, termasuk misi astronomi terkemuka seperti Kepler. Dataset ini mencakup informasi kritis yang diperlukan untuk analisis, antara lain:
+Kecepatan Radial: Data ini mencakup pengukuran kecepatan radial dari planet ekstrasurya yang membantu dalam menentukan gerakan planet relatif terhadap bintangnya. Informasi ini penting untuk menghitung parameter orbital seperti eksentrisitas dan jarak orbit.
+Data Fotometrik: Ini termasuk pengukuran perubahan kecerahan bintang saat planet melintas di depan bintang, yang dikenal sebagai fenomena transit. Data ini memberikan wawasan tentang ukuran dan struktur planet, serta orbitnya.
+Parameter Orbital Lainnya: Dataset juga mencakup parameter lain yang berkaitan dengan orbit planet, seperti kemiringan orbit, periode orbit, dan informasi atmosfer planet.
+Penggunaan dataset ini sangat penting untuk melatih model deep learning yang dikembangkan dalam penelitian ini. Dengan memanfaatkan data yang akurat dan komprehensif, aplikasi ini bertujuan untuk menghitung parameter orbital planet ekstrasurya dengan tingkat akurasi yang tinggi, sehingga mendukung upaya penemuan dan analisis planet yang layak huni di luar tata surya. 
+
+
+Gambar 2.7 Dataset Spectroscopy dari Bintang Gliese 667 C
+2.10 Preprocessing
+Preprocessing merupakan langkah krusial dalam analisis data, khususnya untuk memastikan data kecepatan radial siap digunakan dalam pelatihan model Convolutional Neural Network (CNN). Data mentah yang berasal dari pengamatan sering kali mengandung noise dan inkonsistensi yang dapat mengganggu kemampuan model untuk mendeteksi pola-pola yang diinginkan. Oleh karena itu, preprocessing bertujuan untuk membersihkan, menormalkan, dan mentransformasikan data ke dalam format yang optimal. Tahapan preprocessing dalam penelitian ini melibatkan lima langkah utama: pembersihan data, normalisasi, transformasi spektral, augmentasi data, dan validasi silang.
+Langkah pertama adalah pembersihan data untuk menghilangkan noise akibat aktivitas bintang, seperti variasi granulasional, siklus magnetik, dan keberadaan bintik bintang. Noise ini dapat mengaburkan sinyal kecepatan radial yang disebabkan oleh planet. Sebagai contoh, aktivitas bintang yang menghasilkan perubahan pada bentuk garis spektrum (spectral line asymmetry) harus dikurangi. Penelitian  menunjukkan bahwa penggunaan representasi spektral yang dirancang untuk menangkap perubahan profil garis lebih efektif dalam memitigasi noise. Oleh karena itu, pendekatan ini digunakan untuk mengidentifikasi dan menghilangkan komponen aktivitas bintang tanpa memengaruhi sinyal Doppler yang dihasilkan oleh keberadaan planet. Setelah data dibersihkan, normalisasi dilakukan untuk menyelaraskan nilai-nilai dalam dataset sehingga berada dalam rentang yang seragam, biasanya antara [0,1]. Normalisasi membantu model CNN dalam mengenali pola-pola penting tanpa dipengaruhi oleh perbedaan skala antara fitur-fitur dalam data. Teknik min-max scaling digunakan untuk proses ini, di mana setiap nilai xxx dalam dataset diubah menggunakan rumus:
+                                                                                                    (2.1)
+di mana ​ dan ​ adalah nilai minimum dan maksimum dalam dataset. Proses ini memastikan bahwa seluruh fitur dalam data memiliki kontribusi yang setara selama pelatihan model.
+Langkah berikutnya adalah mentransformasikan data ke dalam bentuk representasi spektral tertentu. Penelitian ini mengadopsi pendekatan shell spectral representation (Cretignier et al., 2022), di mana data spektrum diubah ke dalam ruang normalisasi fluks terhadap gradien fluks (). Transformasi ini dirancang untuk meningkatkan sensitivitas terhadap aktivitas bintang dengan mengisolasi perubahan bentuk garis spektrum akibat inhibisi convective blueshift, sekaligus mengurangi dimensi data agar lebih mudah dikelola oleh CNN. Dengan transformasi ini, model dapat lebih efektif dalam mengenali pola yang relevan tanpa kehilangan informasi penting. Dataset yang tersedia untuk pengamatan bintang tertentu sering kali terbatas, sehingga augmentasi data dilakukan untuk meningkatkan variasi data yang tersedia. Dalam penelitian ini, augmentasi melibatkan penambahan sinyal planet buatan dengan berbagai amplitudo dan periode ke dalam data kecepatan radial. Pendekatan ini tidak hanya meningkatkan keragaman data, tetapi juga membantu model belajar mendeteksi sinyal planet di tengah noise aktivitas bintang. Teknik ini mengacu pada praktik yang digunakan oleh , di mana sinyal planet buatan disuntikkan untuk mengevaluasi kemampuan deteksi model pada berbagai skenario. 
+Langkah terakhir adalah validasi silang (cross-validation) untuk memastikan model dapat bekerja secara konsisten pada data baru. Dataset dibagi menjadi 10 kelompok (folds), di mana sembilan kelompok digunakan untuk melatih model dan satu kelompok untuk pengujian. Proses ini diulang sebanyak 10 kali sehingga setiap kelompok data menjadi bagian dari pengujian setidaknya sekali. Validasi silang membantu mengevaluasi kinerja model dengan lebih akurat, mengurangi risiko overfitting, dan memastikan bahwa model memiliki kemampuan generalisasi yang baik. Penerapan validasi silang mengacu pada implementasi yang telah digunakan oleh .
+2.11 Evaluasi Model
+Evaluasi model dilakukan untuk menilai performa algoritma Convolutional Neural Network (CNN) yang dikembangkan dalam mendeteksi eksoplanet Gliese 667 Cc berdasarkan data kecepatan radial. Metrik evaluasi yang digunakan adalah F1 Score, yang memberikan keseimbangan antara presisi dan recall. Metode ini sangat relevan dalam konteks data astronomi yang sering kali mengalami ketidakseimbangan kelas, di mana sinyal eksoplanet (positif) lebih jarang ditemukan dibandingkan sinyal aktivitas bintang (negatif).
+F1 Score adalah rata-rata harmonik dari presisi dan recall, memberikan bobot yang sama pada keduanya untuk menilai kinerja model secara keseluruhan. F1 Score sangat penting dalam penelitian ini karena data sering kali mengandung noise signifikan dari aktivitas bintang, yang dapat menyebabkan prediksi salah (false positives dan false negatives). Presisi mengukur sejauh mana prediksi positif model benar, sedangkan recall menilai seberapa baik model mendeteksi semua sinyal eksoplanet yang benar. Rumus untuk menghitung F1 Score adalah:
+F1 =                                                                                                (2.2)
+Presisi dihitung sebagai:
+Presisi =                                                             (2.3)
+Recall dihitung sebagai:
+Recall =                                                              (2.4)
+Evaluasi dimulai dengan pembagian dataset ke dalam tiga bagian: data pelatihan, validasi, dan pengujian. Setelah model dilatih menggunakan data pelatihan dan disesuaikan dengan data validasi, performa model diuji pada dataset pengujian. Dataset pengujian mengandung data kecepatan radial dari sistem bintang Gliese 667 yang mencakup variasi sinyal akibat planet dan aktivitas bintang. Prediksi model dikelompokkan ke dalam empat kategori:
+True Positives (TP): Model dengan benar mendeteksi sinyal eksoplanet.
+False Positives (FP): Model salah mengidentifikasi aktivitas bintang sebagai sinyal eksoplanet.
+True Negatives (TN): Model dengan benar mengabaikan aktivitas bintang.
+False Negatives (FN): Model gagal mendeteksi sinyal eksoplanet yang sebenarnya ada.
+F1 Score memberikan wawasan mendalam tentang performa model dalam kondisi data astronomi yang kompleks. Tidak seperti metrik akurasi yang dapat memberikan hasil bias pada dataset tidak seimbang, F1 Score memperhitungkan bagaimana model menangani prediksi salah yang dapat berdampak besar pada penelitian eksoplanet. Nilai F1 Score yang tinggi dalam penelitian ini menunjukkan bahwa model dapat diandalkan untuk mendeteksi sinyal eksoplanet bahkan dalam situasi di mana aktivitas bintang menghasilkan noise yang signifikan.
+Hasil evaluasi dengan F1 Score menunjukkan bahwa model CNN yang dikembangkan memiliki kemampuan yang andal dalam mendeteksi eksoplanet dengan presisi dan recall yang tinggi. Hal ini membuktikan efektivitas pendekatan deep learning dalam memproses data kecepatan radial yang kompleks. Dengan nilai F1 Score yang optimal, model ini diharapkan dapat diterapkan untuk deteksi eksoplanet pada sistem bintang lain yang serupa. Selain itu, pendekatan ini membuka peluang untuk penelitian lebih lanjut, termasuk pengembangan algoritma yang lebih canggih untuk menganalisis data dengan tingkat noise yang lebih tinggi atau untuk mendeteksi planet dengan massa lebih kecil.
+2.12 Flowchart
+Flowchart adalah jenis diagram yang menjelaskan suatu proses atau alur kerja secara visual. Biasanya, Flowchart dibuat menggunakan berbagai simbol, yang masing-masing mewakili langkah yang berbeda dalam suatu urutan atau proses. Diagram flowchart biasanya mencakup berbagai elemen, seperti actions, material, service, input, dan outputs . Ini adalah lambang flowchart:
+1. Proses
+Simbol ini digunakan untuk mewakili tindakan atau langkah tertentu dalam suatu proses. Biasanya, proses ini digambarkan secara visual sebagai bentuk persegi panjang, yang memberikan batasan yang jelas dan tegas dalam diagram. Proses ini berfungsi sebagai blok penyusun, yang memecah sistem atau prosedur yang rumit menjadi komponen yang mudah dikelola dan dipahami.
+2. Terminator
+Simbol terminator berbentuk persegi panjang dengan sudut membulat. Simbol ini menandakan titik awal atau akhir aliran proses. Jika digunakan di awal, simbol ini menandai titik awal, dan di akhir, simbol ini menandakan penyelesaian suatu proses.
+3. Decision
+Simbol decision digunakan untuk menggambarkan titik percabangan dalam suatu proses, di mana keputusan harus dibuat berdasarkan kondisi tertentu. Dengan menggunakan simbol ini, maka ada dua kemungkinan hasil: "ya" atau "tidak." Simbol keputusan biasanya direpresentasikan sebagai berlian.
+4. Input/Output
+Ketika ingin memvisualisasikan input atau output data dalam aliran proses, Maka simbol input/output akan digunakan. Simbol ini menggambarkan interaksi dengan data yang masuk atau keluar dari suatu proses. Contoh diagram alir dalam bentuk simbol input/output sering kali menyertakan jajaran genjang.
+5. Predefine Process
+Langkah berikutnya adalah memahami diagram yang menggunakan simbol proses yang telah ditentukan. Simbol ini menggambarkan langkah-langkah yang telah dirancang dan ditentukan secara cermat sebelumnya. Langkah-langkah tersebut tidak dapat diinterpretasikan ulang atau diubah selama proses berlangsung.
+Dokumen
+Simbol dokumen digunakan untuk merepresentasikan dokumen atau laporan dalam sebuah proses. Melalui simbol ini, data, dokumen, atau catatan yang terkait dengan sistem atau proses dapat digambarkan.
+Preparation
+Simbol persiapan biasanya digunakan untuk menunjukkan langkah-langkah awal atau persiapan sebelum alur kerja atau proses dimulai. Persiapan ini dapat mencakup pengaturan alur kerja, pengumpulan data awal, atau tugas lain yang diperlukan sebelum langkah berikutnya dijalankan.
+Manual Preparation
+Simbol ini menunjukkan langkah-langkah yang harus dilakukan secara manual oleh operator. Langkah-langkah tersebut biasanya melibatkan tindakan yang tidak dapat diotomatisasi dan memerlukan interaksi langsung.
+On-Page Reference
+Simbol On-Page Reference digunakan untuk menghubungkan bagian-bagian dari diagram alir pada halaman yang sama. Simbol ini membantu menghindari pengulangan instruksi dan mengacu pada langkah-langkah yang sudah ditentukan di halaman tersebut.
+Off-Page Reference
+Simbol ini berfungsi sebagai pasangan dari On-Page Reference. Simbol ini digunakan untuk menghubungkan bagian-bagian dari diagram alir yang terdapat pada halaman yang berbeda.
+Display
+Simbol Display berfungsi untuk menunjukkan informasi yang akan disajikan. Informasi ini dapat berupa pesan, data, atau informasi penting lain yang memberikan panduan terkait status atau tindakan yang diperlukan.
+Flow
+Simbol ini juga dikenal sebagai garis penghubung karena merepresentasikan aliran  langkah-langkah atau tindakan dalam suatu proses.
+Keberadaan simbol Flow memberikan instruksi konkret yang perlu dijalankan, seperti pemrosesan data, pengambilan keputusan, atau langkah-langkah lain yang membentuk alur kerja.
+Berikut beberapa simbol-simbol standar yang digunakan dalam flowchart:
+Tabel 2.1 Komponen Flowchart
+
+Dalam penelitian ini, flowchart memiliki peran penting dalam menjelaskan alur penelitian yang akan dipaparkan pada Bab 3 (Metode Penelitian). Simbol-simbol standar flowchart pada tabel 2.1 akan dijadikan acuan dalam pembuatan alur penelitian untuk memastikan bahwa setiap proses yang terlibat dapat diilustrasikan dengan jelas dan logis. 
+
+2.13 UML (Unified Modelling Language)
+Unified Modeling Language (UML) adalah bahasa permodelan visual multifungsi yang digunakan untuk menentukan, memvisualisasikan, mengonstruksi, dan mendokumentasikan struktur perangkat lunak. UML memiliki peran yang sangat penting dalam membantu pengembang serta pemangku kepentingan untuk memahami, mendesain, mengonfigurasi, dan mengontrol informasi terkait sistem yang akan dibangun . Melalui diagram UML, pengembang dapat memvisualisasikan kebutuhan sistem dengan jelas, sehingga baik pengembang maupun pengguna dapat memperoleh gambaran tentang bagaimana sistem akan berfungsi. Dalam penelitian ini, UML digunakan untuk memvisualisasikan hasil analisis sistem dalam pengembangan aplikasi katalog exoplanet. Diagram-diagram yang disusun nantinya akan menjadi panduan bagi pengembang dalam mendesain dan membangun aplikasi ini. Beberapa diagram UML yang akan digunakan dalam penelitian ini antara lain Use Case Diagram, Class Diagram, dan Activity Diagram.
+2.13.1 Use Case Diagram
+Use Case adalah teknik analisis kebutuhan yang menggambarkan interaksi antara aktor eksternal dengan sistem. Diagram ini memberikan narasi deskriptif tentang bagaimana pengguna berinteraksi dengan sistem dan menjelaskan fungsionalitas utama dari perspektif pengguna akhir . Model use case memodelkan fungsionalitas sistem seperti yang dirasakan oleh pengguna, yang disebut aktor. Use case sendiri merupakan unit fungsionalitas yang dinyatakan sebagai transaksi antara aktor dan sistem. Tujuan utama dari use case adalah untuk memetakan aktor-aktor dan use case-use case, serta menunjukkan aktor mana saja yang berperan dalam masing-masing use case . Berikut adalah rancangan Use Case Diagram yang telah dibuat untuk sistem yang dibangun, yang memuat beberapa komponen standar dalam penerapan use case diagram:
+                  Tabel 2.2 Komponen dan Relasi Use Case Diagram 
+
+
+
+Pada penelitian ini, Use Case Diagram memiliki peran penting dalam memetakan interaksi antara pengguna dan sistem pada aplikasi katalog exoplanet. Diagram ini digunakan untuk menggambarkan hubungan antara berbagai jenis pengguna aplikasi (aktor) dengan fitur-fitur sistem (use case). Mengingat setiap jenis pengguna memiliki pola interaksi yang berbeda dengan sistem, diagram ini membantu dalam mengidentifikasi fitur-fitur spesifik yang dapat diakses oleh masing-masing pengguna. Dengan demikian, Use Case Diagram memberikan panduan yang jelas dalam pengembangan dan implementasi fitur-fitur aplikasi katalog exoplanet.
+2.13.2 Activity Diagram
+Activity Diagram menggambarkan aktivitas-aktivitas komputasional yang terlibat dalam menjalankan sebuah sistem. Setiap activity merepresentasikan sebuah langkah dalam pekerjaan atau eksekusi dari sebuah operasi tertentu. Dalam Activity Diagram, biasanya digunakan swimlanes untuk mengelompokkan aktivitas-aktivitas tersebut ke dalam wilayah tertentu yang dipisahkan oleh garis, berdasarkan pihak yang bertanggung jawab atas aktivitas tersebut . Dalam pengembangan aplikasi katalog exoplanet, Activity Diagram digunakan untuk memodelkan alur proses utama, seperti pencarian data exoplanet, pengelompokan berdasarkan kriteria tertentu, dan pengelolaan informasi detail exoplanet. Diagram ini membantu dalam memvisualisasikan alur kerja sistem secara keseluruhan. Beberapa komponen yang digunakan dalam Activity Diagram adalah:
+        Tabel 2.3 Komponen Untuk Activity Diagram 
+
+Pada penelitian ini, Activity Diagram berperan untuk memetakan alur kerja dari setiap fitur pada aplikasi katalog exoplanet. Komponen-komponen dalam Activity Diagram, seperti transition, decision, swimlanes, dan lainnya, mempermudah pembaca maupun pengembang dalam memahami alur kerja suatu fitur. Dengan memanfaatkan Activity Diagram, alur kerja fitur menjadi lebih mudah dipahami, baik oleh pengembang sebagai panduan dalam pengembangan aplikasi maupun oleh pemangku kepentingan lainnya untuk memahami alur fitur sistem. Hal ini akan memfasilitasi komunikasi yang lebih efektif serta implementasi yang lebih efisien selama proses pengembangan sistem.
+2.14 UI/UX Design
+UI/UX Design adalah elemen krusial dalam pengembangan aplikasi mobile, website, atau platform daring lainnya. Desain UI/UX berperan signifikan dalam menentukan tingkat ketertarikan dan kenyamanan pengguna saat berinteraksi dengan sebuah aplikasi. Meskipun merupakan dua konsep yang berbeda, UI (User Interface) dan UX (User Experience) memiliki hubungan yang erat dan saling melengkapi.
+2.14.1 User Interface (UI) Design
+UI Design mengacu pada proses merancang elemen visual dan interaktif dari produk digital, seperti aplikasi mobile atau website, yang memungkinkan interaksi dengan pengguna. Proses ini mencakup pembuatan antarmuka yang estetis, intuitif, dan mudah digunakan untuk memberikan pengalaman pengguna yang positif. Tujuan utama dari UI Design adalah menciptakan antarmuka yang menarik, fungsional, dan ramah pengguna, sehingga mempermudah navigasi dan interaksi dengan produk .
+Dalam pengembangan aplikasi katalog exoplanet, desain UI berperan penting dalam menggambarkan rancangan visual aplikasi sebelum diimplementasikan ke dalam kode. Pendekatan ini memisahkan tahap desain antarmuka dari implementasi teknis, memberikan panduan visual yang jelas bagi pengembang untuk memastikan bahwa setiap elemen desain sesuai dengan kebutuhan sebelum tahap pengkodean dimulai . Dengan cara ini, UI Design membantu menjaga keselarasan antara konsep desain dan hasil akhir, serta mendukung proses pengembangan aplikasi yang lebih efisien dan terorganisir.
+
+                            Gambar 2.8 Contoh UI Design
+                             
+	2.14.2 User Experience (UX) Design
+UX Design mengacu pada proses merancang produk atau layanan digital dengan fokus pada kebutuhan, preferensi, dan perilaku pengguna. Tujuan utama dari UX Design adalah menciptakan pengalaman pengguna yang intuitif, menyenangkan, dan mampu memenuhi kebutuhan serta ekspektasi mereka . Berbeda dengan UI Design, yang lebih berorientasi pada elemen visual, UX Design mencakup pendekatan yang lebih menyeluruh untuk memastikan bahwa seluruh interaksi pengguna dengan aplikasi berjalan lancar dan logis.
+Dalam pengembangan aplikasi katalog exoplanet, UX Design akan memastikan bahwa fitur-fitur aplikasi tidak hanya terlihat menarik, tetapi juga mudah diakses dan sesuai dengan kebutuhan pengguna, baik untuk astronom amatir, pelajar, maupun peneliti. Proses desain ini memastikan pengalaman pengguna dalam menjelajahi katalog exoplanet, mencari informasi, hingga memvisualisasikan data berlangsung mulus tanpa hambatan, sehingga meningkatkan kepuasan pengguna dan efisiensi dalam mengakses informasi.
+
+                     Gambar 2.9 Alur Proses UX Design
+2.15 Flask
+Flask adalah framework web open-source berbasis Python yang digunakan untuk membangun aplikasi full-stack atau backend. Pengembangan aplikasi katalog eksoplanet menggunakan Flask memungkinkan pengelolaan server, API, dan integrasi dengan berbagai teknologi frontend dan database secara fleksibel. Flask memiliki sifat ringan (microframework), sehingga pengembang dapat menyesuaikan komponen yang digunakan sesuai kebutuhan, tanpa terikat pada struktur tertentu.
+Salah satu keunggulan Flask adalah kemudahan dalam membangun API RESTful untuk mengelola data eksoplanet. Dengan Flask, backend dapat menangani request dan response secara efisien, termasuk integrasi dengan machine learning model seperti CNN (Convolutional Neural Network) untuk analisis data eksoplanet. Flask juga mendukung berbagai database, seperti SQL (menggunakan SQLite atau PostgreSQL) maupun NoSQL (menggunakan MongoDB), untuk menyimpan data eksoplanet secara efisien.
+Flask dapat diintegrasikan dengan frontend modern seperti React atau Vue.js untuk membangun antarmuka pengguna yang dinamis dan responsif. Frontend menangani visualisasi data eksoplanet, sementara Flask berfungsi sebagai penghubung antara frontend dan database. Dengan Flask, pengembang memiliki kebebasan untuk menggunakan berbagai library dan ekstensi Python, seperti Flask-SQLAlchemy untuk pengelolaan database atau Flask-Cors untuk mendukung komunikasi lintas domain.
+
+Gambar 2.10 Framework Flask
+2.16 REST API
+Application Programming Interface (API) adalah sebuah antarmuka yang memungkinkan integrasi data serta menghubungkan aplikasi-aplikasi yang berjalan pada platform yang berbeda . Misalnya, terdapat aplikasi web dan mobile yang berbeda, kedua aplikasi tersebut dapat menggunakan data yang sama, saling terhubung, dan terintegrasi. API juga dapat membantu proses pengembangan dengan menyediakan fungsi-fungsi secara terpisah sehingga pengembang tidak perlu lagi membuat fungsi yang sama secara berulang.
+Representational State Transfer (REST) merupakan gaya arsitektur untuk berkomunikasi antar sistem menggunakan protokol Hypertext Transfer Protocol (HTTP) dalam proses pertukaran informasi. Pada REST API, client akan memberikan request menggunakan suatu fungsi HTTP pada suatu endpoint. Kemudian, server akan menerima request tersebut dan mengembalikan sebuah response berbentuk JSON yang nantinya akan diterima oleh client. Di antara berbagai jenis arsitektur API yang ada, REST API mampu mencapai tingkat popularitas yang signifikan . Dalam membangun sebuah REST API, terdapat beberapa bahasa pemrograman ataupun framework yang dapat digunakan seperti Flask menggunakan bahasa Python, ExpressJS menggunakan JavaScript, ataupun Spring Boot menggunakan Java.
+Untuk aplikasi katalog eksoplanet, REST API digunakan untuk mengakses dan mengambil data terkait eksoplanet, seperti nama planet, massa, jarak dari bintang, serta parameter lainnya, melalui request HTTP ke server yang menyediakan data tersebut. Dengan menggunakan REST API, aplikasi katalog eksoplanet dapat mengakses data secara real-time dan memperbarui informasi yang ditampilkan di antarmuka pengguna baik pada aplikasi web maupun mobile.
+REST API menjadi solusi untuk memastikan aplikasi katalog eksoplanet dapat terintegrasi sepenuhnya. Artinya, seluruh aplikasi yang berjalan pada platform yang berbeda, seperti web dan mobile, dapat saling terhubung dan berbagi data yang sama. Ketika data eksoplanet baru ditambahkan atau diperbarui, perubahan tersebut dapat langsung ditampilkan pada aplikasi pengguna.
+
+Gambar 2.11 Alur Kerja REST API
+2.17 Metode Waterfall
+Metode Waterfall, juga dikenal sebagai model Linear Sequential atau siklus hidup perangkat lunak klasik, merupakan pendekatan terstruktur dalam pengembangan perangkat lunak yang menggambarkan proses secara berurutan dan sistematis  . Sebagai bagian dari Software Development Life Cycle (SDLC), metode Waterfall membagi proses pengembangan perangkat lunak menjadi beberapa tahapan yang harus dilalui secara berurutan, di mana setiap tahapan harus diselesaikan sebelum melanjutkan ke tahap berikutnya. Metode ini sangat sesuai digunakan untuk proyek pengembangan perangkat lunak yang memiliki persyaratan yang jelas dan tidak banyak berubah   .Tahapan-tahapan dalam metode Waterfall adalah sebagai berikut:
+Analisis Kebutuhan: Pada tahap ini, informasi dikumpulkan untuk memahami kebutuhan baik dari sisi perangkat lunak maupun pengguna. Data yang diperoleh dapat berupa hasil observasi, survei, atau wawancara. Setelah data terkumpul, dilakukan analisis untuk menentukan spesifikasi kebutuhan perangkat lunak yang akan dikembangkan.
+Desain Sistem: Di tahap ini, desain sistem dirancang secara menyeluruh untuk memberikan gambaran umum mengenai langkah-langkah yang perlu diambil dalam pengembangan.
+Implementasi Sistem: Pada tahap ini, perangkat lunak dikembangkan menggunakan bahasa pemrograman dan basis data sesuai dengan hasil analisis kebutuhan dan desain sistem yang telah disusun pada tahapan sebelumnya.
+Pengujian Sistem: Di tahap ini, sistem diuji untuk memastikan apakah berjalan dengan baik dan memenuhi kebutuhan, serta untuk mendeteksi adanya masalah atau bug yang perlu diperbaiki.
+Pemeliharaan Sistem: Pada tahap ini, sistem akan dipelihara secara berkala untuk meningkatkan efektivitas dan melakukan penambahan fitur yang dibutuhkan oleh pengguna
+
+Gambar 2.12 Alur Kerja Model Waterfall
+2.18 Black Box Testing
+Black box testing adalah pendekatan pengujian perangkat lunak yang fokus pada pengujian fungsi dan perilaku aplikasi dari perspektif pengguna tanpa mempertimbangkan kode sumber atau struktur internal aplikasi tersebut . Dalam konteks pengembangan aplikasi katalog eksoplanet, pengujian ini bertujuan untuk memastikan bahwa semua fitur yang telah dirancang, seperti pencarian eksoplanet berdasarkan kriteria tertentu, tampilan informasi yang akurat, serta navigasi antar halaman, berjalan sesuai dengan harapan. Pengujian dilakukan dengan memberikan input yang relevan ke dalam aplikasi dan memverifikasi apakah output yang dihasilkan sesuai dengan yang diinginkan, sesuai dengan spesifikasi dan kebutuhan pengguna.
+Metode black box testing sangat penting dalam memastikan aplikasi katalog eksoplanet dapat berfungsi dengan baik, terutama ketika aplikasi tersebut melibatkan data eksternal yang bersumber dari berbagai arsip dan database ilmiah. Tanpa melihat kode internal, penguji hanya memfokuskan diri pada validitas data yang disajikan dan pengalaman pengguna secara keseluruhan. Hal ini memungkinkan pengujian aplikasi yang lebih menyeluruh dalam berbagai skenario yang relevan dengan cara aplikasi akan digunakan dalam kondisi nyata, sehingga bisa memastikan bahwa aplikasi akan memberikan informasi yang akurat dan berguna kepada pengguna.
+Dengan menerapkan black box testing, aplikasi katalog eksoplanet dapat diuji dari sisi fungsionalitas untuk mengidentifikasi adanya kesalahan atau kekurangan dalam sistem, seperti kesalahan dalam pengambilan data, tampilan yang tidak sesuai, atau navigasi yang membingungkan. Pengujian ini juga membantu dalam mendeteksi potensi masalah yang mungkin tidak terlihat dalam tahap pengembangan kode, namun dapat memengaruhi pengalaman pengguna secara keseluruhan. Oleh karena itu, black box testing menjadi langkah penting dalam meningkatkan kualitas dan keandalan aplikasi katalog eksoplanet sebelum diterapkan untuk penggunaan publik.
+
+Gambar 2.13 Alur Black-Box Testing
+2.19 Benchmark
+Benchmarking adalah proses evaluasi yang digunakan untuk mengukur kinerja sistem atau aplikasi dalam berbagai aspek, dengan tujuan untuk membandingkan hasil pengujian terhadap standar atau sistem lain yang serupa. Benchmark sering digunakan untuk mengukur berbagai parameter penting, seperti kecepatan, efisiensi, dan responsivitas suatu aplikasi . Proses ini dapat melibatkan pengujian terhadap waktu eksekusi, penggunaan sumber daya, dan kemampuan aplikasi untuk menangani beban kerja tertentu. Benchmark juga digunakan untuk memastikan bahwa sistem yang diuji berfungsi sesuai dengan harapan dan dapat menangani berbagai kondisi secara efektif, baik dalam hal performa maupun kualitas .
+Dalam pengembangan aplikasi katalog eksoplanet, benchmark berfungsi untuk memastikan bahwa aplikasi mampu memberikan pengalaman pengguna yang optimal dengan memproses data secara cepat dan efisien. Pengujian benchmark dilakukan untuk mengukur waktu respons aplikasi ketika pengguna mencari informasi terkait eksoplanet, mengakses detail data, atau melakukan filter pencarian berdasarkan parameter tertentu. Selain itu, benchmark juga digunakan untuk mengevaluasi kinerja aplikasi dalam memproses dan menampilkan data yang besar, yang sering kali melibatkan informasi dari berbagai sumber seperti arsip ilmiah atau database eksoplanet.
+
+2.20 Penelitian Terkait
+Dalam penulisan penelitian ini, penulis merujuk dan menggunakan beberapa penelitian terdahulu sebagai sumber referensi, yaitu:
+Tabel 2.4 Daftar Penelitian Terdahulu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BAB III
+ METODE PENELITIAN
+3.1 Kerangka Berpikir
+      Untuk memudahkan penelitian ini dibutuhkan sebuah rangkaian ataupun tahapan dalam penyelesaian masalah. Dengan adanya tahapan ini memudahkan peneliti untuk melakukan penelitian agar dapat mengetahui setiap langkah dan kesalahan pada tiap tahapan yang dilakukan. Berikut ini kerangka berpikir yang diterapkan pada penelitian ini. 
+
+Gambar 3.1 Alur Kerja Penelitian
+3.1.1 Identifikasi Masalah
+Tahap ini melibatkan penentuan masalah yang ingin diselesaikan    dalam penelitian ini. Identifikasi masalah dilakukan dengan menganalisis literatur yang ada dan menentukan celah penelitian yang dapat diisi. Peneliti perlu menjelaskan secara detail konteks masalah dan dampaknya dalam bidang astronomi, khususnya dalam deteksi planet ekstra surya.
+3.1.2 Studi Literatur
+Pada tahap ini, peneliti melakukan studi literatur untuk mengumpulkan informasi tentang penelitian sebelumnya yang relevan. Tinjauan pustaka bertujuan untuk memahami teori-teori yang ada, teknik yang digunakan, serta hasil-hasil yang telah dicapai oleh peneliti lain. Referensi yang relevan akan digunakan sebagai dasar untuk pengembangan model dalam penelitian ini.
+Pengumpulan Data
+Pengumpulan dan persiapan data merupakan langkah krusial dalam penelitian ini untuk mendeteksi eksoplanet Gliese 667 CC dalam sistem bintang Gliese 667 menggunakan teknik Convolutional Neural Network (CNN). Data yang digunakan terdiri dari dua sumber utama: data kecepatan radial dan data fotometrik. Data kecepatan radial diperoleh melalui pengamatan terhadap bintang-bintang di sekitar sistem Gliese 667, dengan fokus pada pengukuran variasi kecepatan bintang akibat tarikan gravitasi planet yang mengorbit. Data ini sangat penting untuk menghitung parameter orbital planet, seperti eksentrisitas dan jarak orbit planet terhadap bintang induk. Selain itu, dataset kecepatan radial juga mencakup informasi terkait aktivitas bintang yang dapat memengaruhi akurasi pengukuran, seperti fluks sinar-X atau fluktuasi magnetik dari aktivitas bintang. Oleh karena itu, pengumpulan data ini melibatkan kolaborasi dengan berbagai observatorium astronomi terkemuka dan akses ke berbagai basis data publik, seperti NASA Exoplanet Archive. Data fotometrik yang digunakan dalam penelitian ini mencakup pengukuran perubahan kecerahan bintang selama transit planet. Pengumpulan data fotometrik ini akan digabungkan dengan data kecepatan radial untuk memberikan gambaran yang lebih lengkap mengenai karakteristik planet yang mengorbit bintang Gliese 667. Data yang diperoleh akan diuji dan diproses untuk memastikan bahwa model CNN dapat mengenali pola yang relevan dan menghasilkan prediksi yang akurat tentang keberadaan dan parameter planet.
+Setelah data dikumpulkan, langkah selanjutnya adalah persiapan data untuk pelatihan model CNN. Tahap ini melibatkan transformasi data mentah menjadi bentuk yang lebih terstruktur dan dapat dimanfaatkan secara optimal oleh algoritma deep learning. Fokus utama pada tahap persiapan data ini adalah menjaga kualitas sinyal kecepatan radial, mengurangi noise dari aktivitas bintang, serta menyiapkan data dalam format yang sesuai untuk pelatihan model. Langkah pertama adalah memastikan data memiliki format yang konsisten, seperti waktu pengamatan, nilai kecepatan radial, dan ketidakpastian pengukuran. Data yang tidak lengkap atau mengandung outlier akan dihapus untuk menjaga integritas dataset. Selanjutnya, data dinormalisasi menggunakan teknik min-max scaling untuk memastikan semua fitur berada dalam rentang nilai [0,1], sehingga kontribusi setiap fitur seimbang selama proses pelatihan model. Setelah normalisasi, data kecepatan radial akan diubah menjadi format representasi spektral tertentu. Representasi ini menggabungkan informasi penting seperti fluks bintang, gradien fluks, dan parameter terkait dengan kecepatan radial. Transformasi data ini bertujuan untuk mengoptimalkan sensitivitas model dalam mendeteksi pola-pola kecil yang menunjukkan keberadaan eksoplanet. Selanjutnya, dataset akan dibagi menjadi data pelatihan, validasi, dan pengujian dengan rasio tertentu, misalnya 70:20:10, untuk memastikan distribusi yang merata dan evaluasi yang adil. Data pengujian dipisahkan sejak awal untuk memastikan hasil evaluasi mencerminkan performa model pada data baru. Data pelatihan dan validasi digunakan untuk melatih model dan mengoptimalkan hyperparameter, seperti ukuran kernel dan jumlah lapisan konvolusi. Terakhir, tahap verifikasi dilakukan untuk memastikan bahwa data telah diproses sesuai dengan standar yang diperlukan. Data yang telah dipersiapkan ini kemudian dimasukkan ke dalam pipeline pelatihan model CNN untuk menghasilkan prediksi yang akurat mengenai eksoplanet Gliese 667 CC.
+3.1.4 Perencanaan
+3.1.4.1 Analisis Kebutuhan Sistem
+Analisis kebutuhan sistem adalah proses yang digunakan untuk menentukan spesifikasi kebutuhan sistem. Spesifikasi ini mencakup elemen atau komponen yang dibutuhkan untuk membangun sistem hingga tahap implementasi. Selain itu, analisis kebutuhan juga meliputi penentuan spesifikasi masukan yang diperlukan sistem, keluaran yang akan dihasilkan, serta proses yang dibutuhkan untuk mengolah masukan tersebut sehingga menghasilkan keluaran yang diinginkan.
+Metode analisis ini berkaitan dengan perancangan sistem yang akan dibuat dan hasil yang ingin dicapai. Dengan menggunakan metode analisis yang terstruktur dan terpadu, perancangan sistem akan menghasilkan prototype yang sesuai dengan kebutuhan. Dalam hal ini, metode Waterfall diterapkan untuk mengembangkan perangkat lunak secara sistematis dan terstruktur. Setiap tahap, mulai dari analisis kebutuhan hingga pengujian, dilakukan secara berurutan untuk memastikan bahwa setiap fase pengembangan sistem memenuhi kebutuhan yang telah ditetapkan. Metode ini digunakan setelah tujuan dan masalah yang ingin diselesaikan sudah dipahami dengan jelas.
+	           3.1.4.2 Metode Analisis
+Analisis sistem adalah tahap yang sangat penting dalam perancangan dan implementasi perangkat lunak, karena kesalahan pada tahap ini dapat menyebabkan kesalahan pada tahapan pengembangan berikutnya. Untuk menganalisis pengembangan aplikasi, metode yang digunakan adalah metode Waterfall. Metode Waterfall dipilih karena memberikan pendekatan yang terstruktur dan sistematis, dimana setiap tahap, mulai dari analisis kebutuhan hingga pengujian dan implementasi, dilakukan secara berurutan. Pendekatan ini cocok untuk pengembangan aplikasi yang membutuhkan alur pengembangan yang jelas dan terorganisir, seperti pada deteksi exoplanet menggunakan data kecepatan radial yang dianalisis dengan teknik Convolutional Neural Network (CNN).
+3.1.4.3 Analisis Kebutuhan
+   Untuk menyelesaikan masalah yang telah dikemukakan di atas, ada beberapa analisis yang dibutuhkan. Adapun masing-masing analisis tersebut adalah :
+Perangkat Keras (Hardware)
+Model      : Nitro AN515-44
+Processor : AMD Ryzen 5 4600H with Rado Graphics, 3000 Mhz, 6 Core(s)
+Memory   : RAM 8 GB
+Storage     : 500 GB
+GPU         : NVIDIA GeForce GTX 1650 Ti
+Perangkat Lunak
+Sistem Operasi Windows 10
+Visual Studio Code
+Python
+Node.js
+Express.js
+MongoDB
+Postman
+React.js
+Redux
+Axios
+Docker
+3.1.5 Pemodelan 
+Pemodelan/Analisis sistem dilakukan setelah seluruh data mengenai kebutuhan pengguna terkumpul. Pada tahap ini, peneliti akan mengevaluasi kebutuhan yang diperoleh dan merancang solusi yang akan diimplementasikan untuk aplikasi katalog exoplanet. Proses ini bertujuan untuk memastikan bahwa fitur-fitur yang dikembangkan dapat memenuhi kebutuhan pengguna, seperti pencarian dan pemfilteran exoplanet berdasarkan berbagai parameter, serta visualisasi data yang relevan. Solusi yang akan diimplementasikan akan dijabarkan dalam berbagai diagram, seperti use case diagram, activity diagram, dan entity relationship diagram.
+Dalam use case diagram, akan digambarkan interaksi antara pengguna dengan berbagai fitur yang ada pada aplikasi katalog exoplanet. Pengguna dapat mengakses berbagai informasi terkait exoplanet, seperti parameter orbit, radius, dan data kecepatan radial. Diagram ini akan memperlihatkan berbagai aktor yang terlibat, seperti pengguna akhir, administrator, dan sistem, serta fungsi yang dapat diakses oleh masing-masing aktor. Activity diagram akan menggambarkan alur kerja setiap fitur, baik dari sisi pengguna maupun sistem, untuk memberikan gambaran yang jelas mengenai proses yang terjadi saat pengguna berinteraksi dengan aplikasi. Misalnya, bagaimana pengguna memilih exoplanet untuk dilihat detailnya, atau bagaimana data diperbarui di backend.
+Pada entity relationship diagram (ERD), peneliti akan memetakan data yang akan digunakan dalam aplikasi katalog exoplanet, termasuk informasi terkait exoplanet, sistem bintang, dan data observasi. ERD ini akan menjelaskan bagaimana entitas-entitas tersebut saling terhubung, serta relasi antara data yang berbeda, seperti data kecepatan radial dan data fotometrik yang terkait dengan pengamatan exoplanet. Diagram ini akan menjadi acuan penting dalam merancang database dan API untuk aplikasi, memastikan bahwa data dapat disimpan dengan efisien dan dapat diakses dengan mudah oleh pengguna atau sistem.
+Tahap ini juga melibatkan perancangan arsitektur sistem yang akan digunakan dalam penelitian. Peneliti akan merancang model Convolutional Neural Network (CNN) yang sesuai dengan tujuan penelitian, termasuk pemilihan jenis model, algoritma, dan parameter yang akan digunakan untuk menganalisis data kecepatan radial exoplanet. Dalam hal ini, model CNN akan dirancang untuk mendeteksi pola-pola yang menandakan keberadaan exoplanet berdasarkan data yang dikumpulkan. Diagram alur sistem akan dibuat untuk menggambarkan interaksi antar komponen dalam aplikasi, seperti alur pengumpulan data, pemrosesan data menggunakan model CNN, dan penyajian hasil analisis kepada pengguna melalui antarmuka aplikasi.
+	           3.1.5.1 Desain Sistem Deep Learning
+Desain sistem deep learning dalam penelitian ini berfokus pada pengembangan model Convolutional Neural Network (CNN) yang mampu menganalisis data kecepatan radial dan fotometrik. Model CNN dipilih karena kemampuannya dalam mendeteksi pola yang kompleks dalam data berukuran besar. Dalam desain ini, arsitektur CNN akan disusun dengan beberapa lapisan konvolusi dan lapisan pooling untuk mengekstraksi fitur yang relevan dari data.
+3.1.5.2 Arsitektur CNN yang Digunakan
+Arsitektur CNN yang digunakan dalam penelitian ini terdiri dari beberapa lapisan konvolusi yang diikuti oleh lapisan pooling. Setiap lapisan konvolusi bertujuan untuk mengekstraksi fitur dari data input, sedangkan lapisan pooling digunakan untuk mengurangi dimensi data dan mempertahankan informasi yang paling penting. Dengan pendekatan ini, model diharapkan dapat belajar dari data kecepatan radial dan mengidentifikasi pola yang berkaitan dengan parameter orbital. Selain itu, arsitektur CNN akan dilengkapi dengan lapisan fully connected di bagian akhir untuk menghubungkan fitur yang diekstraksi dengan output yang diinginkan, yaitu parameter orbital. Desain ini memungkinkan model untuk menghasilkan prediksi yang lebih akurat dan efisien.
+
+                                   Gambar 3.2 Contoh Arsitektur CNN
+3.1.5.3 Penggunaan Shell Spectral Representation
+Dalam penelitian ini, penggunaan representasi spektral shell akan diterapkan untuk meningkatkan akurasi model. Metode ini melibatkan pengolahan data kecepatan radial dalam bentuk representasi spektral, yang memungkinkan model untuk menangkap informasi yang lebih mendalam tentang pola yang ada dalam data. Dengan menggunakan representasi ini, diharapkan model dapat mengidentifikasi karakteristik unik dari data kecepatan radial yang berkaitan dengan keberadaan planet. Penggunaan representasi spektral juga membuka peluang untuk menerapkan teknik-teknik pemrosesan sinyal yang lebih canggih, sehingga meningkatkan kemampuan model dalam menganalisis data yang kompleks. Ini menjadi salah satu inovasi yang diharapkan dapat memberikan kontribusi signifikan dalam penelitian deteksi eksoplanet.
+3.1.5.4 Optimizer dan Fungsi Kerugian yang Dipilih
+Dalam penelitian ini, pemilihan optimizer dan fungsi kerugian yang tepat sangat penting untuk memastikan kinerja model yang optimal. Optimizer yang digunakan adalah Adam, yang dikenal karena kemampuannya dalam menyesuaikan laju pembelajaran secara adaptif. Hal ini memungkinkan model untuk belajar lebih cepat dan menghindari masalah konvergensi.
+Fungsi kerugian yang digunakan adalah Binary Cross-Entropy, yang sesuai untuk tugas klasifikasi biner dan memberikan penalti proporsional terhadap kesalahan prediksi berdasarkan probabilitas yang dihasilkan. Selain itu, evaluasi model dilakukan menggunakan F1 Score untuk mengukur keseimbangan antara presisi dan recall, memastikan bahwa model tidak hanya memprediksi dengan akurasi tinggi tetapi juga mampu menangkap semua nilai aktual yang relevan. Kombinasi antara optimizer Adam, fungsi kerugian Binary Cross-Entropy, dan metrik evaluasi F1 Score diharapkan menghasilkan model yang efisien dan andal dalam menganalisis data kecepatan radial serta memprediksi parameter orbital secara akurat.
+3.1.5.6 Proses Pelatihan dan Validasi Model
+Proses pelatihan model dilakukan dengan membagi dataset menjadi tiga bagian: data pelatihan, data validasi, dan data pengujian. Data pelatihan digunakan untuk melatih model, sedangkan data validasi digunakan untuk mengevaluasi kinerja model selama proses pelatihan. Data pengujian akan digunakan untuk menguji model setelah selesai dilatih.
+
+                                                Gambar 3.3 Training dan Test Loss dari Model Yang Telah Divalidasi
+3.1.5.7 Pembagian Dataset (Training, Validation, Testing)
+Pembagian dataset dilakukan dengan proporsi yang seimbang, di mana sekitar 70% dari dataset digunakan untuk pelatihan, 15% untuk validasi, dan 15% untuk pengujian. Pendekatan ini memastikan bahwa model memiliki cukup data untuk belajar dan juga dapat diuji secara independen. Dengan cara ini, peneliti dapat mengevaluasi kinerja model secara objektif dan menghindari overfitting.
+3.1.5.8 Evaluasi Kinerja CNN: F1 Score
+Setelah model dilatih, evaluasi kinerja dilakukan dengan menggunakan F1 Score untuk mengukur keseimbangan antara presisi dan recall dalam memprediksi kelas target. F1 Score dihitung sebagai rata-rata harmonik dari presisi (kemampuan model mengidentifikasi nilai positif dengan benar) dan recall (kemampuan model mendeteksi semua nilai positif yang ada).
+3.1.5.9 Penanganan Overfitting
+Untuk menghindari masalah overfitting, beberapa teknik akan diterapkan, seperti regularisasi dan early stopping. Regularisasi membantu mencegah model dari belajar pola yang terlalu spesifik pada data pelatihan, sedangkan early stopping akan menghentikan proses pelatihan jika kinerja model pada data validasi mulai menurun. Dengan pendekatan ini, diharapkan model dapat generalisasi dengan baik pada data yang belum pernah dilihat sebelumnya.
+3.1.5.10 Implementasi dan Pengujian Algoritma CNN pada Data Gliese 667
+Setelah model dilatih dan divalidasi, langkah selanjutnya adalah implementasi algoritma CNN pada data kecepatan radial yang diperoleh dari sistem Gliese 667. Pengujian ini bertujuan untuk mengevaluasi seberapa baik model dapat mengidentifikasi parameter orbital dari data yang relevan.
+3.1.5.11 Optimasi dan Validasi Kinerja Algoritma CNN
+Proses optimasi dilakukan dengan menyesuaikan hyperparameter model, seperti laju pembelajaran dan ukuran batch, untuk mencapai kinerja yang lebih baik. Setelah optimasi, model akan divalidasi kembali untuk memastikan bahwa peningkatan kinerja dapat dipertahankan.
+3.1.5.12 Evaluasi Penggunaan CNN dalam Deteksi Planet Mirip Bumi
+Akhirnya, evaluasi akan dilakukan untuk menilai efektivitas penggunaan CNN dalam mendeteksi planet mirip Bumi. Hasil dari penelitian ini diharapkan dapat memberikan wawasan baru mengenai potensi penggunaan algoritma deep learning dalam astrofisika, khususnya dalam deteksi planet yang berpotensi layak huni di luar tata surya kita.
+3.1.5.13 Use Case Diagram
+Use Case Diagram pada Gambar 3.2 bertujuan untuk menggambarkan bagaimana interaksi antara pengguna, yang dijelaskan dalam bentuk aktor, dengan aplikasi katalog exoplanet yang digunakan dalam penelitian "Optimasi Deteksi Exoplanet Gliese 667 CC di Sistem Bintang Gliese 667 Menggunakan Convolutional Neural Network Berbasis Data Kecepatan Radial." Diagram ini menjelaskan fungsionalitas utama yang dapat dilakukan oleh masing-masing aktor dalam sistem. Aplikasi katalog exoplanet ini dirancang untuk menyediakan informasi yang relevan mengenai exoplanet, termasuk data kecepatan radial, parameter orbit, serta hasil deteksi menggunakan model CNN. Berikut adalah aktor-aktor utama dalam use case diagram aplikasi ini:
+Admin 
+Admin berperan sebagai aktor dengan akses penuh untuk mengelola data dan pengaturan aplikasi. Tugas utama administrator meliputi pengelolaan database yang berisi informasi mengenai sistem bintang Gliese 667 dan exoplanet yang terdeteksi. Selain itu, administrator bertanggung jawab untuk memperbarui data observasi dan memastikan integritas serta validitas data yang digunakan dalam aplikasi. Administrator juga dapat memantau laporan dari pengguna dan menindaklanjuti masalah atau ketidaksesuaian yang dilaporkan.
+User
+User atau pengguna aplikasi adalah aktor utama yang menggunakan aplikasi untuk mencari dan menganalisis data exoplanet. Mereka dapat mencari exoplanet yang terdeteksi di sekitar sistem bintang Gliese 667 berdasarkan berbagai kriteria, seperti nama planet, jarak, atau parameter orbital. Pengguna juga dapat melihat hasil deteksi yang diperoleh dari model CNN yang digunakan untuk mengidentifikasi exoplanet berdasarkan data kecepatan radial. Pengguna memiliki kemampuan untuk memfilter dan menavigasi berbagai informasi astronomi yang terkait dengan setiap exoplanet yang terdeteksi.
+Sistem Pendeteksi CNN 
+Sistem deteksi berbasis Convolutional Neural Network (CNN) merupakan aktor yang berfungsi untuk menganalisis data kecepatan radial dan mengidentifikasi pola yang menunjukkan keberadaan exoplanet. Melalui proses pelatihan dan inferensi, sistem ini melakukan deteksi exoplanet dalam data yang diberikan dan mengembalikan hasil analisis yang dapat ditampilkan kepada pengguna. Aktor ini berperan penting dalam memberikan hasil analisis berbasis data kecepatan radial, yang selanjutnya disajikan dalam bentuk yang dapat dipahami oleh pengguna melalui antarmuka aplikasi.
+
+Penjelasan Use Case pada Aplikasi Katalog Exoplanet:
+Registrasi dan Login Akun Pengguna
+Setiap pengguna yang ingin mengakses aplikasi harus terlebih dahulu melakukan registrasi dan login ke dalam sistem. Proses ini memungkinkan pengguna untuk menyimpan preferensi pencarian mereka, serta riwayat penggunaan aplikasi. Dengan login, pengguna dapat mengakses data yang lebih lengkap dan personalisasi dalam pencarian exoplanet.
+Mencari Exoplanet: Pengguna dapat mencari exoplanet berdasarkan berbagai parameter, seperti nama, jarak, atau parameter orbital. Aplikasi menyediakan fitur pencarian dengan filter untuk menyaring exoplanet yang relevan sesuai dengan kriteria pengguna.
+Analisis Kecepatan Radial dan Deteksi Exoplanet
+Aplikasi ini menyediakan fitur untuk menganalisis data kecepatan radial yang diperoleh dari pengamatan sistem bintang Gliese 667. Pengguna dapat memanfaatkan model CNN untuk melakukan deteksi exoplanet berdasarkan data kecepatan radial yang telah disediakan. Hasil deteksi ini akan memberikan informasi mengenai keberadaan exoplanet seperti Gliese 667 CC.
+Memantau Hasil Deteksi dan Visualisasi
+Setelah model CNN melakukan deteksi, aplikasi menampilkan hasil analisis yang dapat berupa visualisasi perubahan kecepatan radial dan pola yang menunjukkan adanya exoplanet. Pengguna dapat memantau hasil deteksi dalam bentuk grafik atau tabel yang menunjukkan keakuratan model serta parameter orbit exoplanet.
+Pengelolaan Data Observasi dan Pembaruan
+Admin memiliki tugas untuk mengelola data observasi bintang dan exoplanet, serta memperbarui database dengan data terbaru yang diperoleh dari observasi astronomi. Administrator juga dapat menghapus atau memperbaiki data yang tidak valid atau tidak akurat untuk memastikan integritas informasi yang ditampilkan dalam aplikasi.
+Laporan Masalah atau Ketidaksesuaian: Pengguna dapat melaporkan masalah atau ketidaksesuaian terkait data atau hasil deteksi yang mereka temui dalam aplikasi. Administrator kemudian menindaklanjuti laporan tersebut dan melakukan perbaikan atau pembaruan jika diperlukan, memastikan aplikasi tetap akurat dan terpercaya.
+
+                               Gambar 3.4 Use Case Diagram Aplikasi katalog Exoplanet
+3.1.5.14 Activity Diagram
+Activity diagram adalah diagram yang digunakan untuk menggambarkan alur aktivitas atau proses yang terjadi dalam suatu aplikasi. Dalam penelitian ini, activity diagram digunakan untuk menggambarkan berbagai tahap dalam proses deteksi exoplanet Gliese 667 CC di sistem bintang Gliese 667 menggunakan Convolutional Neural Network (CNN) berbasis data kecepatan radial. Activity diagram ini menggambarkan langkah-langkah yang diambil dari awal pengumpulan data hingga proses optimasi model CNN. Berikut adalah beberapa activity diagram yang menggambarkan alur kerja yang diperlukan dalam aplikasi deteksi exoplanet:
+-  Pengumpulan Data Kecepatan Radial : Activity diagram ini memiliki dua swimlanes: untuk sistem pengumpulan data dan pengguna (peneliti/astronom). Proses dimulai dengan sistem yang mengakses basis data astronomi untuk mengumpulkan data kecepatan radial dari bintang-bintang di sistem Gliese 667. Pengguna kemudian mengonfirmasi data yang dikumpulkan sebelum melanjutkan ke tahap berikutnya, yaitu pemrosesan data untuk analisis lebih lanjut.
+- Preprocessing Data : Diagram ini melibatkan dua swimlanes: sistem dan pengguna. Setelah data kecepatan radial dikumpulkan, data tersebut diproses melalui beberapa tahapan preprocessing untuk menghapus noise dan mengonversi data dalam format yang dapat diterima oleh model CNN. Pengguna dapat memilih opsi untuk membersihkan data atau menggunakan default preprocessing yang telah disediakan oleh sistem.
+- Pelatihan Model CNN : Activity diagram ini menggambarkan proses pelatihan model CNN menggunakan data kecepatan radial yang telah diproses. Pengguna memilih dataset yang relevan dan mengonfigurasi parameter pelatihan, seperti jumlah lapisan dan ukuran batch. Sistem kemudian menjalankan proses pelatihan menggunakan GPU untuk mempercepat perhitungan, dan pengguna dapat memonitor progres pelatihan.
+- Evaluasi Model CNN : Diagram ini menggambarkan alur untuk mengevaluasi model CNN setelah tahap pelatihan selesai. Sistem akan menguji model menggunakan data uji yang tidak digunakan selama pelatihan dan menghasilkan hasil evaluasi seperti akurasi dan loss. Pengguna kemudian memutuskan apakah model memerlukan penyesuaian lebih lanjut atau dapat langsung diterapkan untuk deteksi exoplanet.
+- Deteksi Exoplanet : Setelah model CNN terlatih dan dievaluasi, pengguna dapat menggunakannya untuk mendeteksi potensi exoplanet di sekitar bintang Gliese 667 CC. Sistem akan memproses data kecepatan radial untuk mengidentifikasi pola yang menunjukkan keberadaan exoplanet. Hasil deteksi akan ditampilkan dalam bentuk grafik atau data yang dapat digunakan untuk analisis lebih lanjut.
+-  Optimasi Model CNN : Untuk meningkatkan akurasi deteksi, pengguna dapat memilih untuk melakukan optimasi lebih lanjut pada model CNN. Diagram ini menggambarkan langkah-langkah yang perlu diambil untuk melakukan hyperparameter tuning, seperti menyesuaikan jumlah epoch atau ukuran kernel pada lapisan CNN. Sistem kemudian menjalankan optimasi dan menampilkan hasil yang lebih baik jika ditemukan.
+- Admin dalam Activity Diagram : Admin memiliki wewenang untuk mengelola dan memantau seluruh proses yang terjadi dalam aplikasi, termasuk mengelola pengguna, data, dan hasil deteksi. Dalam activity diagram, peran Admin meliputi beberapa langkah berikut:
+- Verifikasi dan Manajemen Pengguna: Admin bertanggung jawab untuk memverifikasi akun pengguna yang mendaftar dan memastikan data kredensial yang dimasukkan valid. Admin dapat menyetujui atau menolak pendaftaran pengguna berdasarkan data yang diberikan.
+- Pengelolaan Data : Admin dapat menambahkan atau memperbarui data kecepatan radial yang digunakan untuk pelatihan model CNN. Admin juga memantau kualitas data dan mengonfirmasi bahwa data yang digunakan memenuhi standar kualitas yang diperlukan.
+- Pengelolaan Model dan Pelatihan: Admin mengonfigurasi dan mengelola proses pelatihan model CNN. Admin dapat memilih dataset yang akan digunakan untuk pelatihan, memulai proses pelatihan, dan memantau progres pelatihan model.
+- Pemantauan Hasil Deteksi : Admin memantau hasil deteksi exoplanet yang dilakukan oleh sistem. Admin dapat melihat laporan deteksi yang dihasilkan dan melakukan evaluasi terhadap akurasi dan kualitas hasil yang didapatkan.
+- Optimasi dan Pemeliharaan Sistem: Admin dapat memulai proses optimasi model CNN atau memperbarui sistem untuk meningkatkan kinerja deteksi exoplanet. Jika ada masalah atau kesalahan dalam sistem, Admin dapat melakukan perbaikan untuk memastikan aplikasi berjalan dengan lancar.
+
+
+                                          Gambar 3.5 Activity Diagram Admin Katalog Exoplanet
+
+User (Peneliti/Astronom) dalam Activity Diagram
+User (peneliti atau astronom) berfokus pada penggunaan aplikasi untuk mengumpulkan, menganalisis, dan mendeteksi exoplanet menggunakan model CNN. Dalam activity diagram, peran User meliputi langkah-langkah berikut:
+Pendaftaran dan Login: User pertama kali melakukan pendaftaran akun untuk mengakses aplikasi. Setelah akun terdaftar, user dapat melakukan login dengan memasukkan kredensial yang sesuai (email dan password).
+Pengumpulan dan Preprocessing Data: User mengakses data kecepatan radial dari sistem bintang Gliese 667 dan melakukan preprocessing untuk mempersiapkan data sebelum digunakan dalam pelatihan model CNN.
+Pelatihan Model CNN: User memilih dataset yang akan digunakan untuk pelatihan model CNN dan memulai proses pelatihan. Proses ini melibatkan penyesuaian parameter dan pemantauan progres pelatihan untuk memastikan model berjalan dengan baik.
+Deteksi Exoplanet: Setelah model CNN terlatih, user dapat menggunakan model untuk mendeteksi exoplanet berdasarkan data kecepatan radial yang dimasukkan. Sistem akan menghasilkan hasil deteksi, yang menunjukkan kemungkinan adanya exoplanet.
+Analisis Hasil Deteksi: User menganalisis hasil deteksi exoplanet yang telah dilakukan oleh model CNN. User dapat memverifikasi apakah hasil deteksi sesuai dengan ekspektasi dan melanjutkan ke analisis lebih lanjut atau publikasi.
+Optimasi dan Pengujian Model: User melakukan optimasi pada model CNN untuk meningkatkan akurasi deteksi exoplanet. Ini dapat melibatkan penyesuaian hyperparameter atau penggunaan teknik lain untuk memperbaiki performa model.
+
+
+                                           Gambar 3.6 Activity Diagram User Katalog Exoplanet
+
+3.1.5.15 UI/UX Design
+Pada tahap desain, fokus utama adalah menciptakan antarmuka pengguna (UI) dan pengalaman pengguna (UX) yang intuitif, menarik, dan sesuai dengan kebutuhan calon pengguna aplikasi katalog exoplanet. Proses ini dilakukan sebelum implementasi atau pengkodean untuk memberikan gambaran yang jelas tentang bagaimana aplikasi akan terlihat dan berfungsi.
+Desain UI/UX dibuat berdasarkan diagram-diagram hasil analisis sistem untuk memastikan setiap elemen dan fitur aplikasi sesuai dengan kebutuhan pengguna yang telah diidentifikasi. Prototipe interaktif akan dirancang menggunakan software Figma, memungkinkan visualisasi tata letak layar, navigasi antarhalaman, dan interaksi pengguna dengan aplikasi.
+Pada aplikasi katalog exoplanet, desain UI/UX akan mencakup:
+Beranda: Halaman utama yang menyajikan informasi ringkas tentang aplikasi, fitur utama, serta berita atau pembaruan terbaru seputar penelitian exoplanet. Beranda juga memberikan akses cepat ke fitur-fitur utama aplikasi.
+Katalog/Pencarian: Halaman untuk menjelajahi daftar exoplanet dengan fitur pencarian dan filter canggih berdasarkan atribut tertentu seperti nama planet, bintang induk, massa, atau tahun penemuan. Desain akan memastikan pengguna dapat dengan mudah menemukan informasi yang mereka butuhkan.
+Informasi Planet: Halaman detail yang menampilkan informasi mendalam mengenai exoplanet tertentu. Data seperti radius, massa, periode orbit, suhu, dan tahun penemuan akan disajikan dengan tampilan yang menarik dan informatif.
+Pengamatan/Tools: Halaman yang dirancang untuk menampilkan data hasil pengamatan, termasuk alat atau instrumen yang digunakan. Halaman ini juga memungkinkan pengguna untuk mengakses informasi teknis seperti parameter teleskop atau instrumen yang digunakan dalam penelitian exoplanet.
+Visualisasi/Plots: Halaman untuk menyajikan data dalam bentuk visualisasi grafis seperti grafik orbit, hubungan massa dan radius, atau distribusi exoplanet berdasarkan karakteristik tertentu. Hal ini bertujuan untuk memudahkan pengguna memahami data secara visual dan mendalam.
+
+                                  Gambar 3.7 Beranda Katalog Exoplanet
+Tampilan Halaman Beranda
+1. Header
+Warna Latar: Warna gelap yang kontras dengan elemen teks untuk keterbacaan yang lebih baik.
+Elemen Navigasi:
+Menu horizontal dengan beberapa opsi: Home, Katalog, Plot, dan Tools. Menu ini membantu pengguna untuk langsung menuju fitur utama website.
+Tombol Login berada di pojok kanan atas untuk mempermudah akses pengguna terdaftar.
+Logo atau judul utama KATALOG EXOPLANET ditampilkan dengan gaya menonjol di tengah header.
+2. Hero Section
+Gambar Latar: Latar belakang berupa pemandangan malam dengan bintang-bintang, menciptakan suasana visual yang menggambarkan tema luar angkasa.
+Judul Besar: "EXOPLANET" dengan font besar, jelas, dan tegas, yang menarik perhatian pengguna.
+Deskripsi Pendek: Penjelasan ringkas tentang apa itu exoplanet, mencakup informasi bahwa terdapat lebih dari 5.800 exoplanet yang telah dikonfirmasi.
+Keselarasan Desain: Elemen-elemen pada bagian ini diatur secara simetris, memberikan kesan profesional.
+3. Bagian Overview
+Subjudul: "Overview" dengan font tebal dan jelas.
+Isi Konten:
+Penjelasan mendetail tentang exoplanet, termasuk jarak, komposisi, dan cara pengukuran.
+Informasi ini ditujukan untuk memberikan pengantar edukatif kepada pengguna.
+Konten ditulis dengan paragraf yang terstruktur rapi untuk meningkatkan keterbacaan.
+Desain Visual: Latar belakang putih untuk membuat teks lebih mudah dibaca.
+4. Bagian Katalog Exoplanet
+Subjudul: "KATALOG EXOPLANET" dengan huruf kapital untuk menarik perhatian.
+Isi Konten: Penjelasan bahwa terdapat 5.800 exoplanet yang telah dikonfirmasi, serta ajakan untuk menjelajahi katalog dengan klik tombol.
+Tombol CTA (Call-to-Action):
+Tombol besar bertuliskan Buka Katalog Exoplanet disertai ikon panah untuk mengarahkan pengguna menuju halaman katalog.
+Ilustrasi: Gambar planet pada sisi kanan sebagai elemen visual untuk mendukung konten teks.
+5. Bagian Penjelasan Tambahan
+Dua Kategori Informasi:
+Bagaimana Kita Menemukan Exoplanet?
+Penjelasan singkat mengenai metode ilmiah dalam menemukan exoplanet.
+Tombol panah mengarahkan ke halaman detail.
+Galeri Exoplanet
+Ajakan untuk melihat galeri gambar terkait exoplanet.
+Tombol panah yang serupa untuk navigasi.
+Desain: Elemen ini disusun secara horizontal dengan batasan yang jelas antar kategori, memastikan visual tetap bersih dan rapi.
+6. Bagian Tipe Exoplanet
+Subjudul: "TIPE EXOPLANET" dengan gaya tebal untuk menarik perhatian.
+Isi Konten: Penjelasan tentang kategori exoplanet (raksasa gas, terestrial, dll.), lengkap dengan ajakan untuk mempelajari lebih lanjut.
+Tombol CTA: Tombol dengan teks Pelajari Lebih Lanjut tentang Jenis-jenis Exoplanet disertai ikon panah.
+7. Footer
+Struktur Tiga Kolom:
+Kolom 1: Informasi umum tentang katalog exoplanet, termasuk ajakan untuk membaca dokumentasi (README first).
+Kolom 2: Informasi tentang siapa pembuat situs ini dan FAQ (Help).
+Kolom 3: Informasi kontak dan opsi untuk melaporkan masalah.
+Desain: Latar belakang gelap dengan teks kontras yang membantu pengguna fokus pada informasi penting.
+Alur Navigasi Pengguna
+Pengguna baru: Akan tertarik dengan bagian hero section yang berisi deskripsi singkat dan gambar yang menarik, lalu diarahkan untuk menjelajahi lebih lanjut melalui tombol katalog.
+Pengguna yang mencari edukasi: Akan membaca bagian overview dan tipe exoplanet sebelum menuju detail di halaman terkait.
+Pengguna terdaftar: Dapat langsung menggunakan fitur seperti katalog, galeri, atau tools setelah login.
+
+
+
+                                                                Gambar 3.8 Katalog Pada Katalog Exoplanet
+
+Tampilan Halaman Katalog Exoplanet
+1. Hero Section
+Bagian ini menampilkan latar belakang gambar langit berbintang yang menciptakan nuansa astronomi, lengkap dengan:
+Judul besar "KATALOG EXOPLANET", memperjelas tujuan utama halaman.
+Deskripsi singkat, yang menjelaskan bahwa katalog ini mencakup lebih dari 5.000 planet dengan informasi terkait sistem mereka, statistik penting, dan fasilitas untuk eksplorasi data.
+Elemen visual ini menciptakan kesan profesional dan edukatif.
+2. Kategori Planet (Carousel Jenis Exoplanet)
+Bagian ini menampilkan kategori planet dalam bentuk carousel horizontal, yang diakses dengan tombol navigasi kanan/kiri:
+4 Kategori utama:
+Terrestrial: Planet berbatu mirip Bumi.
+Bumi Super: Planet lebih besar dari Bumi tetapi lebih kecil dari Neptunus.
+Gas Raksasa: Planet besar mirip Jupiter atau Saturnus.
+Neptunus: Planet dengan ukuran mirip Uranus/Neptunus.
+Setiap kategori dilengkapi gambar ilustrasi dan penjelasan singkat.
+3. Filter dan Tampilan Data
+Bagian ini memungkinkan pengguna memfilter dan melihat data exoplanet:
+Pengaturan jumlah tampilan: Dropdown di bagian atas kiri untuk memilih jumlah planet yang ditampilkan per halaman (default: 15).
+Kolom Filter:
+Tipe Planet: Checkbox untuk memilih kategori planet tertentu (Terrestrial, Bumi Super, dll.).
+Metode Penemuan: Checkbox untuk filter berdasarkan metode deteksi seperti Transit, Astrometri, Mikrolensa, dll.
+Tombol "Terapkan Filter": Untuk menerapkan kriteria filter.
+Kolom Pencarian: Untuk mencari exoplanet berdasarkan nama atau properti spesifik.
+4. Daftar Exoplanet
+Bagian utama halaman ini menampilkan daftar exoplanet dalam format grid dengan informasi detail:
+Setiap entri planet berisi:
+Gambar ilustrasi planet.
+Nama planet di bagian atas.
+Detail penting, seperti:
+Jarak dari Bumi (dalam tahun cahaya).
+Massa planet (dibandingkan massa Bumi atau Jupiter).
+Periode orbit (dalam hari).
+Tahun ditemukan.
+Navigasi halaman: Tombol numerik dan "Selanjutnya/Terakhir" di bagian bawah untuk berpindah antar halaman katalog.
+Alur Navigasi Halaman Katalog Exoplanet
+Hero Section
+Menampilkan judul "KATALOG EXOPLANET," deskripsi singkat, dan latar belakang visual langit berbintang.
+Kategori Planet (Carousel)
+Navigasi horizontal dengan tombol kanan/kiri untuk 4 kategori planet: Terrestrial, Bumi Super, Gas Raksasa, dan Neptunus, dilengkapi ilustrasi dan deskripsi singkat.
+ Filter dan Pencarian
+Atur jumlah tampilan planet per halaman.
+Terapkan filter berdasarkan tipe planet atau metode penemuan, lalu klik "Terapkan Filter".
+Cari planet berdasarkan nama atau properti tertentu.
+Daftar Exoplanet
+Format grid menampilkan gambar, nama, dan detail planet (jarak, massa, periode orbit, tahun ditemukan).
+Navigasi antar halaman dengan tombol numerik atau "Selanjutnya/Terakhir."
+
+
+
+
+                                   Gambar 3.9 Informasi Exoplanet Didalam Katalog Exoplanet
+
+Tampilan Halaman Sub Bagian Katalog Exoplanet
+1. Informasi Utama (Panel Planet dan Bintang Induk)
+Bagian utama halaman terdiri dari dua panel yang menyajikan informasi detail tentang planet dan bintang induknya:
+A. Panel Kiri: Informasi Planet
+Judul Panel: "Planet".
+Subjudul: "Informasi Parameter (12 Parameter)" untuk menunjukkan cakupan data yang diberikan.
+Parameter Planet:
+Nama: Gliese 667 Cc
+Status Planet: Terkonfirmasi
+Ditemukan: 2011
+Semi-Major Axis: 0.1251 (± 0.03) AU
+Periode Orbital: 28.155 (± 0.017) hari
+Massa: 3.7 kali massa Bumi
+Eksentrisitas: 0.133 (± 0.098)
+Radius: -
+Inklinasi: Di bawah 30
+Metode Deteksi: Kecepatan Radial
+Temperatur: 4°C
+Gravitasi Permukaan: -
+Keterangan Tambahan: Status "Layak Huni: Ya" disorot dengan warna untuk menarik perhatian pengguna.
+
+B. Panel Kanan: Informasi Bintang Induk
+Judul Panel: "Bintang Induk".
+Parameter Bintang:
+Nama: Gliese 667Cc
+Jarak: 23.62 tahun cahaya
+Tipe Spektral: M1.5V
+Magnitudo Bintang: 10.22
+Massa: 0.33 massa Matahari
+Umur: 6.0 (± 4.0) Gyr
+Temperatur: 3600.0 K
+Radius: -
+Sifat Metalik [Fe/H]: -0.55
+2. Call-to-Action (CTA)
+Di bagian bawah informasi planet terdapat tombol ungu besar bertuliskan "Layak Huni: Iya". Tombol ini memberikan informasi penting dan konfirmasi visual mengenai kelayakan hunian planet.
+Alur Interaksi
+Orientasi Awal: Pengguna mengenali halaman melalui header dan hero section.
+Pembacaan Data:
+Panel kiri menyajikan data spesifik planet.
+Panel kanan menyajikan data bintang induk untuk konteks lebih lanjut.
+Pengecekan Kelayakan Hunian: Informasi visual "Layak Huni" membantu pengguna memutuskan apakah planet menarik untuk studi lebih lanjut.
+
+
+
+                                     Gambar 3.10 Periodogram
+
+
+
+Tampilan Halaman Periodogram
+1. Tab Navigasi Halaman
+Di bawah header terdapat tab navigasi dengan dua pilihan:
+Tab "Input Periodogram": Menampilkan form untuk mengunggah data, memilih algoritma, dan menentukan parameter analisis.
+Tab "Hasil": (tidak aktif di gambar) yang kemungkinan besar menampilkan hasil perhitungan periodogram setelah data diproses.
+2. Konten Utama (Form Input dan Pengaturan)
+Halaman ini dibagi menjadi tiga panel utama, masing-masing dengan fungsi yang spesifik:
+A. Panel Kiri: Opsi Input File
+
+Panel ini berfungsi untuk mengunggah dan menyiapkan data periodogram:
+Upload File Data:
+Tombol "Pilih File" untuk mengunggah file data yang diperlukan.
+Status file ("Tidak ada file yang dipilih").
+File Data Periodogram:
+Menampilkan nama dan sumber file yang diunggah (belum diisi dalam gambar).
+Tombol "Edit Input Table" untuk memodifikasi tabel data.
+Pilih Nama Kolom:
+Dropdown untuk memilih kolom waktu dan kolom data dari file yang diunggah.
+Tombol "Plot Waktu vs Kolom Data" untuk memvisualisasikan data secara grafis.
+
+Poin Digunakan:
+Informasi rentang waktu dan data dari file yang dipilih. (Belum diisi di gambar.)
+B. Panel Tengah: Pengaturan Algoritma dan Periode
+Panel ini berfokus pada konfigurasi algoritma analisis dan parameter periode:
+Pilih Algoritma: Dropdown untuk memilih algoritma analisis periodogram, seperti "Lomb-Scargle".
+Rentang Periode:
+Periode Minimum: Input nilai batas bawah periode.
+Periode Maksimum: Input nilai batas atas periode.
+Metode Langkah Periode:
+Pilih Metode: Dropdown untuk memilih metode seperti "Fixed Frequency".
+Ukuran Langkah Tetap: Input nilai langkah untuk analisis.
+C. Panel Kanan: Opsi Output
+Panel ini menyediakan pengaturan hasil keluaran analisis:
+Parameter Output:
+Jumlah Puncak: Input jumlah maksimum puncak yang ingin ditampilkan.
+Ambang Batas Puncak Signifikan: Input nilai ambang batas.
+Preferensi Plot X-Axis:
+Radio button untuk memilih antara Periode atau Frekuensi sebagai sumbu X untuk plot hasil analisis.
+3. Tombol "Hitung Periodogram"
+Terletak di bawah panel input, tombol ini memicu proses analisis berdasarkan data dan parameter yang telah diatur dan mengahlikan ke halaman plot. Tombol ini merupakan elemen aksi utama pada halaman ini.
+Alur Penggunaanya: 
+Navigasi Halaman →
+Unggah dan Siapkan Data (Panel Kiri) →
+Konfigurasi Algoritma dan Parameter Periode (Panel Tengah) →
+Atur Output (Panel Kanan) →
+Hitung Periodogram →
+
+
+
+                                           Gambar 3.11 Visualisasi Planet Layak Huni
+
+Penjelasan Alur Bagian Visualisasi planet layak huni
+Bagian Utama Halaman (Visualisasi Data)
+Bagian ini merupakan inti dari halaman dan didesain untuk memungkinkan pengguna membuat grafik/plot sederhana secara interaktif berdasarkan data exoplanet.
+Judul Utama
+Terdapat teks besar bertuliskan "PLOT" sebagai pengenal fitur halaman.
+Deskripsi di bawahnya menjelaskan fungsi halaman ini: "Analisis data secara online. Alat plotting sederhana."
+
+Pilihan Jenis Plot
+Tiga jenis visualisasi tersedia:
+Scatter (plot sebar)
+Histogram
+Polar (plot polar)
+Jenis plot yang aktif saat ini adalah Histogram.
+Bagian Filter Data
+Di bagian atas grafik terdapat fitur filter yang membantu pengguna menyaring data berdasarkan kriteria tertentu:
+Dropdown Status
+Pengguna dapat memilih kategori status planet exoplanet.
+Dropdown Metode Deteksi
+Pilihan metode deteksi exoplanet, seperti Transit Primer, Radial Velocity, Microlensa, dll.
+
+Tombol Tambahkan Filter
+Menyediakan opsi untuk menambahkan lebih banyak filter secara dinamis.
+
+Kontrol Variabel dan Pengaturan Grafik
+Di sisi kiri, terdapat panel untuk mengontrol variabel grafik dan pengaturannya:
+Variabel Sumbu X
+Dropdown menu untuk memilih variabel yang akan diplot pada sumbu X. Contoh: Planetary Mass.
+Tombol sakelar "Gunakan skala log" untuk mengubah sumbu X menjadi skala logaritmik.
+Input nilai minimum dan maksimum untuk mempersempit rentang sumbu.
+Variabel Sumbu Y
+Sama dengan pengaturan sumbu X, pengguna dapat memilih variabel dan mengatur skala logaritmik serta rentangnya.
+Pengaturan Tambahan
+Variabel warna: Menyesuaikan warna berdasarkan parameter tertentu.
+Variabel ukuran: Menentukan ukuran titik pada grafik sesuai parameter.
+Opsi tambahan seperti Tampilkan grid, Zoom/Pan manual, Tampilkan label, dan Mode seleksi.
+Tombol Operasional
+Reset Zoom: Mengembalikan grafik ke pengaturan awal.
+Dua tombol "Arahkan ke katalog" untuk navigasi cepat ke halaman katalog.
+Bagian Visualisasi Grafik
+Grafik utama ditampilkan di tengah layar dengan:
+Sumbu X dan Y diberi label sesuai variabel yang dipilih.
+Data diplot sebagai titik-titik berwarna dengan skala dan tampilan yang dinamis berdasarkan filter dan variabel.
+Tampilan berfokus pada kemudahan interpretasi, didukung oleh warna dan simbol.
+Alur pengunaanya:
+  Navigasi ke halaman visualisasi →
+  Pilih jenis plot →
+  Saring data menggunakan filter →
+  Atur variabel dan pengaturan tambahan →
+  Tampilkan atau perbarui grafik berdasarkan pengaturan →
+  Gunakan tombol operasional untuk navigasi atau reset zoom.
+
+         Gambar 3.12 General Circulation Model
+Penjelasan Alur General Circulation Model (GCM)
+1. Detail Kolom Parameter Input
+Kolom Kiri:
+Fluks Pada 1 AU: Slider dengan nilai awal 1362 W/m².
+Jarak: Input untuk jarak dari bintang dengan nilai awal 1 AU.
+Kekesentrikan: Input nilai eksentrisitas orbit.
+Periode: Input waktu orbit dengan nilai awal 365 hari.
+Kuantitas CO2: Slider untuk konsentrasi CO2 dengan nilai awal 400 ppm.
+Tipe Bintang: Dropdown menu untuk memilih jenis bintang (nilai awal: Matahari).
+Kolom Kanan:
+Jumlah Air Cair di Permukaan: Slider dengan nilai awal 1000 m.
+Cakupan Samudra: Slider dengan nilai awal 70%.
+Gravitasi: Nilai tetap 9.81 m/s².
+Tekanan: Nilai tetap 1 bar.
+Tombol kontrol simulasi:
+Start: Memulai simulasi.
+Stop: Menghentikan simulasi.
+Restart: Mengulang simulasi dari awal.
+1. Area Visualisasi Data
+Bagian bawah halaman menampilkan berbagai grafik dan diagram untuk memvisualisasikan hasil simulasi:
+Grafik-Grafik Utama:
+Grafik Temperatur:
+Grafik garis menampilkan hubungan antara suhu (sumbu Y) dan parameter tertentu (sumbu X).
+Grafik Fluks:
+Diagram garis dengan berbagai variabel yang menunjukkan distribusi fluks energi.
+Orbital Trajectory:
+Grafik lintasan orbit dalam koordinat 2D (X-Y) dengan unit AU.
+Profil Atmosfer:
+Beberapa grafik ketinggian vs variabel atmosfer (contoh: konsentrasi gas atau suhu).
+Outgoing Longwave Radiation (OLR):
+Grafik spektrum menunjukkan radiasi inframerah yang keluar dari eksoplanet.
+Outgoing Shortwave Radiation (OSR):
+Grafik spektrum radiasi gelombang pendek yang dipantulkan.
+Alur Penggunaannya:
+Masukkan Parameter Input →
+Jalankan Simulasi →
+Visualisasi Hasil →
+3.1.6 Implementasi
+Pada tahap ini, desain yang telah dirancang sebelumnya diimplementasikan menjadi kode program atau perangkat lunak yang dapat diuji dan dijalankan. Proses implementasi mencakup pengembangan frontend dan backend aplikasi katalog exoplanet menggunakan pendekatan MERN stack (MongoDB, Express.js, React.js, dan Node.js), dengan integrasi penuh antara kedua bagian untuk memastikan kelancaran fungsi aplikasi.
+ Frontend
+    Bagian antarmuka pengguna akan dikembangkan menggunakan React.js, sebuah pustaka JavaScript yang fleksibel dan efisien untuk membangun antarmuka interaktif. React.js dipilih karena kemampuannya untuk menciptakan komponen-komponen yang dapat digunakan kembali, serta mendukung pengalaman pengguna yang dinamis dan responsif. Dengan konsep Virtual DOM, React.js juga memberikan performa yang optimal pada aplikasi berskala besar, seperti katalog exoplanet ini, yang memungkinkan antarmuka pengguna merespons secara cepat terhadap perubahan data.
+ Backend
+    Bagian server akan dikembangkan menggunakan Node.js dan Express.js. Node.js menyediakan lingkungan runtime yang cepat dan ringan, sementara Express.js mempermudah pengelolaan rute, middleware, dan logika backend. Node.js dipilih karena kemampuannya untuk menangani permintaan I/O secara non-blocking, memungkinkan aplikasi menangani banyak permintaan secara simultan tanpa menurunkan performa. Express.js menyederhanakan proses pengaturan API dan integrasi dengan middleware lain yang diperlukan untuk pengelolaan data exoplanet.
+ Database
+   Aplikasi akan menggunakan MongoDB sebagai sistem basis data untuk menyimpan informasi tentang exoplanet, bintang, observasi, dan data terkait lainnya. MongoDB dipilih karena fleksibilitasnya dalam menyimpan data dalam format dokumen yang sesuai dengan struktur JSON. Sebagai basis data NoSQL, MongoDB memungkinkan penambahan data baru tanpa perlu mendefinisikan skema yang ketat, yang sangat berguna dalam aplikasi yang akan terus berkembang dan membutuhkan skalabilitas yang tinggi. Dengan MongoDB, kita dapat dengan mudah menyimpan data dengan struktur yang kompleks dan melakukan query cepat untuk mengambil informasi yang relevan dengan exoplanet.
+Integrasi Frontend dan Backend
+Integrasi antara frontend dan backend dilakukan melalui API RESTful yang dirancang pada backend menggunakan Express.js. API ini menyediakan berbagai endpoint yang memungkinkan frontend untuk mengakses data secara efisien dan melakukan operasi CRUD (Create, Read, Update, Delete). Frontend akan menggunakan Axios atau metode fetch bawaan JavaScript untuk membuat permintaan HTTP ke backend, memungkinkan data dari server diambil dan ditampilkan pada antarmuka pengguna secara real-time. API RESTful ini memastikan komunikasi yang mudah antara frontend dan backend, dengan menggunakan format JSON yang sederhana dan dapat dipahami oleh kedua sisi aplikasi.
+Integrasi PyTorch dalam Backend
+Dalam implementasi backend, PyTorch akan digunakan untuk mengembangkan dan menjalankan model Convolutional Neural Network (CNN). CNN akan digunakan untuk melakukan analisis citra exoplanet dan bintang yang dikumpulkan dari dataset NASA Exoplanet Archive, seperti identifikasi atmosfer exoplanet, deteksi tanda-tanda kehidupan, atau analisis spektrum bintang. PyTorch dipilih karena kemudahan dalam membangun dan melatih model deep learning, serta dukungannya terhadap operasi tensor yang efisien dan kinerja tinggi.
+Pelatihan dan Penggunaan Model CNN
+Model CNN yang digunakan untuk analisis citra akan dilatih menggunakan dataset gambar exoplanet dan bintang yang telah dikumpulkan. Dataset ini akan mencakup gambar-gambar yang diambil dari observasi teleskop luar angkasa, serta data spektrum yang berfokus pada karakteristik atmosfer dan permukaan exoplanet. Model CNN akan dilatih untuk mengenali pola-pola visual yang ada dalam gambar, kemudian mengklasifikasikan citra tersebut berdasarkan kategori yang relevan, seperti identifikasi jenis exoplanet atau bintang, serta deteksi ciri-ciri atmosfer atau tanda kehidupan.
+Penerapan PyTorch 
+   Setelah model CNN dilatih menggunakan dataset yang relevan, model akan disimpan dan siap digunakan untuk melakukan inferensi (analisis) terhadap gambar baru. Di sisi backend, model yang telah dilatih dapat diakses melalui server yang dibangun dengan Node.js dan Express.js. Untuk menghubungkan PyTorch dengan backend, dapat digunakan pustaka seperti python-shell atau API Python yang memungkinkan backend untuk memanggil script Python yang menjalankan model CNN dan mendapatkan hasil analisis.
+Integrasi dengan Node.js 
+Integrasi antara backend dan model CNN yang dilatih menggunakan PyTorch akan memungkinkan aplikasi untuk mengakses hasil analisis citra secara real-time. Frontend React.js dapat membuat permintaan HTTP ke backend, yang kemudian mengirimkan gambar untuk dianalisis oleh model CNN. Hasil analisis akan dikembalikan dalam format yang mudah dipahami oleh frontend, misalnya dalam format JSON, yang akan ditampilkan kepada pengguna di antarmuka aplikasi.
+Implementasi CNN (Convolutional Neural Network)
+CNN akan diterapkan pada bagian backend untuk analisis citra exoplanet dan bintang yang dikumpulkan dari berbagai observasi teleskop. Penggunaan CNN sangat efektif dalam mendeteksi pola atau fitur visual dalam gambar, seperti identifikasi atmosfer exoplanet, deteksi tanda-tanda kehidupan, atau analisis spektrum bintang. CNN akan dilatih untuk mengklasifikasikan gambar-gambar exoplanet dan bintang ke dalam kategori yang relevan, serta memberikan analisis lebih lanjut mengenai karakteristik objek tersebut.
+Dataset
+   Untuk melatih model CNN, dataset yang digunakan akan mencakup gambar-gambar exoplanet dan bintang yang berasal dari observasi teleskop luar angkasa dan data publik seperti katalog exoplanet NASA atau TESS (Transiting Exoplanet Survey Satellite). Dataset ini juga dapat mencakup data spektrum dari teleskop inframerah atau optik yang berfokus pada karakteristik atmosfer dan permukaan exoplanet.
+Alat Pengukur Kelayakhunikan:
+Untuk mengukur kelayakhunikan atmosfer atau kondisi fisik exoplanet, akan digunakan alat pengukur seperti indeks kelayakhunikan atmosfer (atau menggunakan nilai-nilai seperti indeks habitabilitas), yang dapat menunjukkan kemungkinan adanya air cair atau kehidupan. Alat-alat ini menganalisis pola atmosfer dan parameter fisik berdasarkan data citra dan parameter eksoplanet yang telah terklasifikasi menggunakan CNN.
+Model Sirkulasi Atmosfer (General Circulation Model - GCM):
+   Sebagai alternatif untuk GCM, akan digunakan model simulasi iklim yang mensimulasikan interaksi antara atmosfer, permukaan, dan radiasi pada exoplanet. Dengan menggunakan data suhu, tekanan, dan komposisi atmosfer yang dianalisis menggunakan CNN, model ini dapat memprediksi kondisi cuaca atau stabilitas iklim di exoplanet, memberikan gambaran lebih mendalam tentang kemungkinan kelayakhunikan bagi kehidupan.
+Periodogram:
+    Periodogram akan diterapkan untuk menganalisis sinyal periodik dari data exoplanet yang diperoleh dari pencitraan atau pengamatan transit. Dengan menganalisis data periodik yang dihasilkan dari sistem exoplanet, periodogram dapat membantu mengidentifikasi periode orbit dan hubungan antara planet dan bintang induknya. Hal ini berguna untuk menilai stabilitas orbit dan mencari tanda-tanda kehidupan atau sumber energi.
+Visualisasi Data:
+Untuk membantu pemahaman lebih baik tentang hasil analisis CNN, data dan hasil klasifikasi akan divisualisasikan dalam bentuk grafik dan citra interaktif. Visualisasi ini dapat mencakup peta distribusi atmosfer, analisis spektrum, serta penggambaran perubahan suhu atau kondisi iklim pada exoplanet menggunakan model simulasi iklim. Selain itu, visualisasi gambar yang dianalisis dengan CNN akan memudahkan pengguna untuk melihat pola atau ciri-ciri khas dari exoplanet atau bintang yang telah dipelajari.
+Pelatihan dan Implementasi CNN:
+Proses pelatihan dan implementasi CNN akan dilakukan menggunakan library machine learning seperti TensorFlow atau PyTorch yang memungkinkan pembuatan dan pelatihan model CNN yang efisien. Model ini akan dilatih dengan menggunakan dataset gambar dan data spektrum yang telah dikumpulkan. Setelah model CNN dilatih, hasil analisis gambar atau data spektrum dapat diakses oleh frontend melalui API yang disediakan oleh backend. API ini akan menyediakan endpoint yang mengembalikan data analisis gambar dalam format JSON, yang kemudian dapat ditampilkan oleh frontend pada antarmuka pengguna dengan cara yang informatif dan interaktif.
+Integrasi dengan Backend (Node.js):
+Model CNN yang telah dilatih dan disimpan di backend dapat diakses melalui integrasi dengan Node.js. Untuk menghubungkan model machine learning dengan backend, dapat digunakan pustaka seperti tensorflow-node yang memungkinkan model TensorFlow dioperasikan dalam lingkungan Node.js. Atau, alternatif lain adalah menggunakan API Python yang dapat diintegrasikan dengan backend untuk menjalankan model CNN. Frontend dapat melakukan permintaan HTTP untuk mendapatkan hasil analisis yang kemudian ditampilkan pada antarmuka pengguna secara real-time.
+ Input CNN (Convolutional Neural Network)
+    Input yang digunakan dalam CNN pada aplikasi katalog exoplanet akan terdiri dari berbagai jenis data yang berkaitan dengan citra exoplanet, bintang, serta spektrum yang diperoleh dari observasi teleskop. Proses pemrosesan dan analisis citra melalui CNN memungkinkan model untuk mendeteksi fitur visual yang relevan, seperti atmosfer exoplanet atau karakteristik spektrum bintang.
+ Citra Exoplanet dan Bintang 
+Input utama untuk CNN adalah gambar-gambar exoplanet dan bintang yang diperoleh dari observasi teleskop. Citra ini akan melalui berbagai tahap preprocessing, termasuk konversi ke dalam format yang dapat digunakan oleh model (misalnya ukuran gambar yang seragam, normalisasi nilai piksel, dsb.). Citra-citra ini bisa berupa gambar visual dari teleskop optik, inframerah, atau bahkan gambar citra spektrum yang menunjukkan distribusi energi dari objek astronomi tersebut.
+Ukuran Gambar: Sebelum dimasukkan ke dalam CNN, gambar biasanya diubah ukurannya menjadi ukuran yang konsisten (misalnya, 224x224 piksel) untuk memastikan konsistensi dalam proses pelatihan dan evaluasi model.
+Normalisasi: Nilai piksel gambar akan dinormalisasi agar berada dalam rentang yang dapat dicerna oleh model, misalnya dalam rentang 0 hingga 1 atau -1 hingga 1, tergantung pada arsitektur yang digunakan.
+Augmentasi Gambar: Agar model lebih robust, augmentasi gambar dapat diterapkan untuk memperkaya dataset, seperti rotasi, pemotongan, dan pergeseran warna, yang membantu model untuk belajar dari variasi gambar yang lebih banyak.
+ Spektrum Bintang (Spektral Data)
+Selain gambar visual, input untuk CNN juga bisa mencakup data spektrum dari bintang atau exoplanet yang diperoleh dari teleskop spektral. Data spektrum ini memberikan informasi mengenai intensitas cahaya pada berbagai panjang gelombang. Dalam hal ini, spektrum bintang akan dianalisis untuk mendeteksi pola atau tanda-tanda karakteristik, seperti adanya atmosfer atau komposisi kimia tertentu.
+Format Data Spektrum: Data spektrum biasanya terdiri dari sepasang nilai yang mewakili panjang gelombang dan intensitas cahaya pada panjang gelombang tersebut. Data ini akan diproses dan diubah menjadi representasi visual (misalnya, grafik atau gambar spektrum) agar dapat dimasukkan ke dalam CNN.
+Normalisasi: Seperti halnya citra, data spektrum juga akan dinormalisasi untuk memastikan bahwa rentang intensitas cahaya dapat dicerna dengan baik oleh model.
+Data Multimodal  
+Dalam beberapa kasus, input CNN bisa mencakup data multimodal, yaitu kombinasi dari gambar visual dan data spektrum yang diintegrasikan untuk memberikan informasi lebih mendalam. Misalnya, data spektrum dapat memberikan wawasan tentang komposisi atmosfer atau struktur internal exoplanet, sementara gambar visual memberikan informasi tentang penampilan fisik objek tersebut. CNN dapat dilatih untuk menggabungkan kedua jenis data ini untuk membuat prediksi yang lebih akurat.
+ Label atau Kategori (Supervised Learning) 
+Setiap input yang dimasukkan ke dalam CNN akan memiliki label atau kategori yang terkait, yang digunakan selama pelatihan untuk membimbing model dalam belajar. Label ini bisa berupa:
+Klasifikasi Exoplanet: Misalnya, apakah exoplanet tersebut mirip dengan Bumi, gas raksasa, atau memiliki atmosfer yang dapat mendukung kehidupan.
+Identifikasi Ciri-ciri: Misalnya, apakah ada tanda-tanda atmosfer, awan, atau tanda kehidupan dalam gambar atau data spektrum yang dianalisis.
+Kategori Bintang: Misalnya, tipe bintang (seperti G-type atau M-type) berdasarkan spektrum yang dianalisis.
+ Proses Preprocessing Input untuk CNN 
+Sebelum data gambar atau spektrum dapat dimasukkan ke dalam model CNN, data tersebut akan mengalami beberapa tahap preprocessing untuk meningkatkan kinerja model:
+Resizing dan Normalisasi: Gambar dan data spektrum akan diubah ukurannya ke ukuran yang seragam dan dinormalisasi agar memiliki skala yang tepat.
+Transformasi Data: Jika menggunakan data multimodal, data gambar dan spektrum bisa digabungkan atau diproses untuk menghasilkan representasi yang seragam, misalnya menggunakan embedding untuk data spektrum.
+3.1.7 Pengujian
+Tahap pengujian bertujuan untuk memastikan bahwa aplikasi katalog exoplanet berfungsi dengan baik sesuai spesifikasi yang telah ditentukan dan bebas dari bug. Proses pengujian akan dilakukan menggunakan metode Black Box Testing dan Benchmarking untuk mengevaluasi fungsionalitas dan kinerja aplikasi.
+Black Box Testing:
+Pengujian dengan metode ini fokus pada menguji fungsi aplikasi berdasarkan input dan output tanpa memperhatikan struktur internal kode. Langkah-langkah yang dilakukan meliputi:
+Menyusun Test Case: Test case akan mencakup berbagai skenario penggunaan aplikasi, seperti:
+Pencarian exoplanet berdasarkan nama atau parameter tertentu.
+Menampilkan informasi detail tentang exoplanet.
+Visualisasi data melalui grafik atau plot.
+Penggunaan alat observasi atau tools dalam aplikasi.
+Eksekusi Test Case: Test case dijalankan untuk memastikan semua fitur berjalan sesuai ekspektasi. Misalnya, saat pengguna mencari exoplanet berdasarkan nama, aplikasi harus menampilkan hasil yang relevan.
+Evaluasi dan Dokumentasi Hasil: Hasil dari setiap test case akan dicatat untuk menentukan apakah aplikasi lulus atau gagal pada skenario pengujian tertentu.
+Benchmarking:
+Untuk mengevaluasi kinerja aplikasi, dilakukan pengujian benchmark yang mencakup:
+Respons Time: Mengukur waktu respons aplikasi saat memproses permintaan, seperti pencarian data di katalog atau render grafik.
+Load Testing: Menguji kemampuan aplikasi menangani banyak pengguna atau permintaan secara bersamaan.
+Data Handling: Memastikan aplikasi dapat memproses data yang besar, seperti informasi ribuan exoplanet, tanpa kendala kinerja.
+Setelah semua pengujian selesai, hasilnya akan dirangkum dalam sebuah laporan yang mencakup:
+Test case yang dijalankan.
+Hasil pengujian (lulus/gagal).
+Waktu respons aplikasi.
+Temuan bug atau masalah yang ditemukan beserta rekomendasi perbaikannya.
+Alur Penggunaan
+Pengguna memasukkan parameter di kolom kiri dan kanan.
+Menekan tombol Start untuk menjalankan simulasi.
+Grafik di area visualisasi diperbarui secara dinamis berdasarkan input.
+Pengguna dapat menghentikan atau mengulang simulasi dengan tombol Stop dan Restart.
+Data visualisasi dapat dianalisis melalui grafik-grafik yang ditampilkan.
+
+
+
+
+3.2 Jadwal Penelitian
+                     Tabel 3.1 Jadwal Penelitian
+
+
+BAB IV 
+PEMBAHASAN
+
+4.1 Hasil dan Pembahasan
+Aplikasi katalog exoplanet berbasis web telah berhasil dikembangkan dengan penerapan Convolutional Neural Network (CNN) untuk klasifikasi tipe exoplanet. Aplikasi ini dirancang untuk memproses data kecepatan radial dan memberikan visualisasi interaktif mengenai karakteristik eksoplanet, khususnya Gliese 667 Cc.
+4.1.1 Data Kecepatan Radial
+Data kecepatan radial yang digunakan dalam aplikasi ini diperoleh dari berbagai sumber, termasuk NASA Exoplanet Archive. Proses pengumpulan data melibatkan pengukuran variasi kecepatan bintang akibat tarikan gravitasi planet yang mengorbit, serta menghilangkan noise yang disebabkan oleh aktivitas bintang. Dataset telah dibersihkan dan dinormalisasi untuk memastikan akurasi dalam analisis.
+4.1.1.2 Model CNN
+Model CNN yang dikembangkan terdiri dari beberapa lapisan konvolusi dan pooling untuk mengekstraksi fitur penting dari data. Proses pelatihan model dilakukan dengan membagi dataset menjadi data pelatihan, validasi, dan pengujian. Hasil evaluasi model menunjukkan bahwa CNN mampu mencapai nilai F1 Score yang tinggi, yang mencerminkan keseimbangan antara presisi dan recall dalam mendeteksi sinyal eksoplanet.
+4.1.2 Pembahasan Hasil
+Hasil dari pengujian aplikasi menunjukkan bahwa model CNN dapat dengan efektif mengidentifikasi eksoplanet berdasarkan data kecepatan radial yang dianalisis. Beberapa temuan penting dari hasil analisis adalah sebagai berikut:
+4.1.2.1 Akurasi Klasifikasi
+Model CNN yang diterapkan dalam aplikasi ini menunjukkan akurasi yang tinggi dalam mengklasifikasikan tipe exoplanet. Data kecepatan radial yang telah diproses memungkinkan model untuk mengenali pola-pola yang menunjukkan keberadaan planet. Hasil ini menunjukkan bahwa penggunaan teknik deep learning, khususnya CNN, sangat efektif dalam mendeteksi eksoplanet di tengah gangguan aktivitas bintang.
+4.1.2.2 Visualisasi Hasil
+Aplikasi ini juga dilengkapi dengan fitur visualisasi yang memungkinkan pengguna untuk melihat hasil deteksi dalam bentuk grafik interaktif. Visualisasi ini membantu pengguna memahami hubungan antara parameter bintang dan planet, serta memberikan informasi yang lebih mendalam mengenai karakteristik eksoplanet.
+4.1.2.3 Implikasi Penelitian
+Pengembangan aplikasi ini memiliki implikasi signifikan dalam penelitian astrofisika dan deteksi eksoplanet. Dengan kemampuan untuk mengidentifikasi dan mengklasifikasikan eksoplanet secara akurat, aplikasi ini dapat menjadi alat bantu penting bagi astronom dan peneliti dalam eksplorasi luar angkasa. Selain itu, pendekatan yang digunakan dalam penelitian ini dapat diterapkan dalam pengembangan teknologi deteksi eksoplanet yang lebih canggih di masa depan.
+4.1.3 Kesimpulan
+Secara keseluruhan, aplikasi katalog exoplanet berbasis web yang dikembangkan dengan penerapan CNN untuk klasifikasi tipe exoplanet menunjukkan hasil yang menjanjikan. Dengan akurasi yang tinggi dalam deteksi dan visualisasi yang interaktif, aplikasi ini berpotensi menjadi alat yang berharga dalam penelitian eksoplanet dan eksplorasi luar angkasa.
+
+
+DAFTAR PUSTAKA
+

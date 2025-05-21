@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.background-section {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  background-size: contain; /* Ensure the image is contained */
+  background-repeat: no-repeat; /* Prevent image from repeating */
+  background-position: center; /* Center the image */
+  position: relative; /* Position relative for absolute positioning of video */
+}
+
+.video-section {
+  position: absolute; /* Position the video absolutely */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Full width */
+  height: 96%; /* Full height */
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 1; /* Ensure video is above the background */
+}
+
+video {
+  width: 50%; /* Set width to a percentage of the container */
+  height: 50%; /* Full height */
+   /*max-width: 40%; /* Set a maximum width 
+  object-fit: cover; /* Scale the video to cover the area */
+  margin-top: 210px; /* Adjust this value to move the video down */
+}

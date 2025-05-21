@@ -1,0 +1,279 @@
+/* general */
+.page-wrap {
+	// we want the hero to take up the rest of the bottom space below header
+	display: grid;
+	grid-template-rows: min-content 1fr;
+	overflow-x: hidden;
+	min-height: 100vh;
+	background-repeat: no-repeat;
+	background-position: bottom center;
+	background-size: cover;
+}
+
+.flex {
+	display: flex;
+	gap: 1rem;
+}
+
+.grid {
+	display: grid;
+	gap: 1rem;
+}
+
+.d-block {
+	display: block;
+}
+
+.flow > *:where(:not(:first-child)) {
+	margin-top: 1rem;
+}
+
+.flow--space-small > *:where(:not(:first-child)) {
+	margin-top: 0.75rem;
+}
+
+.container {
+	padding-inline: 2em;
+	margin-inline: auto;
+	max-width: 80rem;
+}
+
+.grid-container {
+	text-align: center;
+	display: grid;
+	place-items: center;
+	padding-inline: 1rem;
+	padding-bottom: 4rem;
+
+	@include desktop {
+		text-align: left;
+		column-gap: 2rem;
+		// centering with grid
+		grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(0px, 80rem)) minmax(
+				2rem,
+				1fr
+			);
+	}
+}
+
+.page-info {
+	max-width: 459px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap; /* added line */
+	border: 0;
+}
+
+/* colors */
+.bg-dark {
+	background-color: $clr-dark;
+}
+
+.bg-accent {
+	background-color: $clr-light;
+}
+
+.bg-white {
+	background-color: $clr-white;
+}
+
+.text-dark {
+	color: $clr-dark;
+}
+
+.text-accent {
+	color: $clr-light;
+}
+
+.text-white {
+	color: $clr-white;
+}
+
+/* typography */
+
+.ff-serif {
+	font-family: $ff-serif;
+}
+
+.ff-sans-cond {
+	font-family: $ff-sans-cond;
+
+}
+
+.ff-sans-normal {
+	font-family:$ff-sans-normal;
+}
+
+.letter-spacing-1 {
+	letter-spacing:4.75px;
+}
+
+.letter-spacing-2 {
+	letter-spacing: 2.7px;
+}
+
+.letter-spacing-3 {
+	letter-spacing: 2.35px;
+
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.fs-900 {
+	font-size: $fs-900;
+}
+
+.fs-800 {
+	font-size: $fs-800;
+	@include tablet {
+		font-size: $fs-800-lg;
+	}
+	@include desktop {
+		font-size: $fs-800-xlg;
+
+	}
+}
+.fs-600 {
+	font-size: $fs-600;
+	/* 
+	@include tablet {
+		font-size: $fs-600-lg;
+	}
+	@include desktop {
+		font-size: $fs-600-xlg;
+	}
+	 */
+}
+
+.fs-550 {
+	font-size: $fs-300;
+}
+.fs-500 {
+	font-size: $fs-500;
+	@include tablet {
+		font-size: $fs-500-lg;
+	}
+	@include desktop {
+		font-size: $fs-500-xlg;
+	}
+}
+
+.fs-400 {
+	font-size: $fs-400;
+	@include tablet {
+		font-size: $fs-400-lg;
+
+	}
+	@include desktop {
+		font-size: $fs-400-xlg;
+	}
+}
+
+.fs-200 {
+	font-size: $fs-200;
+
+}
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+	line-height: 1.1;
+}
+
+.numbered-title {
+	font-family: $ff-sans-cond;
+	text-transform: uppercase;
+	letter-spacing: 2.7px;
+
+	@include tablet {
+		letter-spacing: 3.38px;
+		justify-self: start;
+		margin-top: 2rem;
+	}
+	@include desktop {
+		letter-spacing: 4.72px;
+
+	}
+	@media (min-width: 560px) and (max-width: 780px) {
+		margin-bottom: 1.75rem;
+	}
+}
+
+.numbered-title span {
+	margin-right: 0.5em;
+	font-weight: 700;
+	color: $fs-500;
+	opacity: 0.25;
+}
+
+/* Components >>>  */
+
+.tab-list {
+	gap: 2rem;
+}
+.dot-indicator {
+	cursor: pointer;
+	border: 0;
+	border-radius: 50%;
+	padding: 0.5em;
+	background-color: hsla(0, 0%, 100%, 0.25);
+	transition: backgroound-color 0.3s ease-in-out;
+	margin-top: 3rem;
+}
+
+.dot-indicator:hover,
+.dot-indicator:focus {
+	background-color: hsla(0, 0%, 100%, 0.5);
+}
+.dot-indicator[aria-selected="true"] {
+	background-color: hsla(0, 0%, 100%, 1);
+}
+
+.number-selectors {
+	flex-direction: row;
+	@include desktop {
+		flex-direction: column;
+	}	
+}
+
+.number-selectors > * {
+	color: $clr-white;
+	background-color: $clr-dark;
+	border: 1px solid hsla(0, 0%, 100%, 0.25);
+	aspect-ratio: 1;
+	padding: 0;
+	width: 40px;
+	border-radius: 50%;
+	font-size: 1em;
+	font-weight: normal;
+	font-family: var(--f-serif);
+	transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+
+	@include tablet {
+		font-size: 1.5em;
+		width: 60px;
+
+	}
+	@include desktop {
+		width: 80px;
+	}
+}
+
+.number-selectors [aria-selected="true"] {
+	color: $clr-dark;
+	background-color: $clr-white;
+}
+.number-selectors > button:hover {
+	border: 1px solid $clr-white;
+}

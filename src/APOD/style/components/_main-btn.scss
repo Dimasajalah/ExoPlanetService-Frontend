@@ -1,0 +1,34 @@
+.main-btn {
+  padding: .73em .4em .4em;
+  font: {
+    size: 1.125rem; // 18px
+    weight: 600;
+  }
+  color: $clr-white;
+  text-transform: uppercase;
+  border: $main-border;
+  cursor: pointer;
+  transition: 300ms;
+
+  &.-full {
+    width: 100%;
+    text-align: center;
+  }
+
+  &.-fill-up:hover,
+  &.-fill-up:focus {
+    box-shadow: inset 0 -3em 0 0 $clr-blue-violet;
+    border-color: transparent;
+  }
+
+  &.-close {
+    padding: .7em;
+    font-size: 1.2em; // 22px
+  }
+}
+
+@media (max-width: $mobile-md) {
+  .main-btn {
+    font-size: 1rem; // 16px
+  }
+}

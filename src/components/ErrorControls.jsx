@@ -1,0 +1,45 @@
+// ErrorControls.jsx
+import React from "react";
+import { usePlotSettings } from "./PlotSettingsContext";
+
+const ErrorControls = ({ columns }) => {
+  const { errorSettings, setErrorSettings } = usePlotSettings();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setErrorSettings((prev) => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className="p-4 bg-gray-100 rounded-md shadow-md mb-4">
+      <h2 className="font-semibold mb-2 text-lg">Error Bars Controls</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[
+          { label: "X Plus Error", name: "xPlusError" },
+          { label: "X Minus Error", name: "xMinusError" },
+          { label: "Y Plus Error", name: "yPlusError" },
+          { label: "Y Minus Error", name: "yMinusError" },
+        ].map(({ label, name }) => (
+          <div key={name}>
+            <label className="block font-medium mb-1">{label}</label>
+            <select
+              name={name}
+              value={errorSettings[name]}
+              onChange={handleChange}
+              className="w-full border rounded p-2"
+            >
+              <option value="">None</option>
+              {columns.map((col) => (
+                <option key={col} value={col}>
+                  {col}
+                </option>
+              ))}
+            </select>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ErrorControls;

@@ -1,0 +1,282 @@
+[
+    {
+        "id": 1,
+        "title": "Quiz 1 - Introduction to Exoplanets",
+        "questions": [
+            {
+                "text": "What is an exoplanet?",
+                "choices": [
+                    "A planet inside our solar system",
+                    "A planet that orbits the Sun",
+                    "A planet that exists outside our solar system",
+                    "A moon orbiting Earth"
+                ],
+                "correctAnswer": "A planet that exists outside our solar system"
+            },
+            {
+                "text": "How many exoplanets have been confirmed so far?",
+                "choices": [
+                    "Over 1,000",
+                    "Over 5,600",
+                    "Over 10,000",
+                    "Over 100,000"
+                ],
+                "correctAnswer": "Over 5,600"
+            },
+            {
+                "text": "What are rogue exoplanets?",
+                "choices": [
+                    "Planets that orbit two stars",
+                    "Planets that do not orbit any star",
+                    "Planets in our solar system",
+                    "Planets with no atmosphere"
+                ],
+                "correctAnswer": "Planets that do not orbit any star"
+            },
+            {
+                "text": "What tool has helped scientists observe exoplanets' atmospheres?",
+                "choices": [
+                    "NASA's Hubble Space Telescope",
+                    "James Webb Space Telescope",
+                    "Mars Rover",
+                    "Voyager"
+                ],
+                "correctAnswer": "NASA's Hubble Space Telescope"
+            },
+            {
+                "text": "Why are exoplanets exciting to scientists?",
+                "choices": [
+                    "They are all the same size",
+                    "They might support life",
+                    "They are very close to Earth",
+                    "They all have atmospheres"
+                ],
+                "correctAnswer": "They might support life"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Quiz 2 - Terrestrial Planets",
+        "questions": [
+            {
+                "text": "What are terrestrial planets primarily made of?",
+                "choices": [
+                    "Gas",
+                    "Ice",
+                    "Metal and rock",
+                    "Hydrogen and helium"
+                ],
+                "correctAnswer": "Metal and rock"
+            },
+            {
+                "text": "Which of the following is a terrestrial planet?",
+                "choices": [
+                    "Proxima Centauri b",
+                    "Jupiter",
+                    "Neptune",
+                    "GJ 436 b"
+                ],
+                "correctAnswer": "Proxima Centauri b"
+            },
+            {
+                "text": "Terrestrial planets are most likely to be found in which zone?",
+                "choices": [
+                    "The ice zone",
+                    "The habitable zone",
+                    "The gas zone",
+                    "The evaporation zone"
+                ],
+                "correctAnswer": "The habitable zone"
+            },
+            {
+                "text": "Proxima Centauri b is how many light-years away from Earth?",
+                "choices": [
+                    "2.24 light-years",
+                    "4.24 light-years",
+                    "10.24 light-years",
+                    "50.24 light-years"
+                ],
+                "correctAnswer": "4.24 light-years"
+            },
+            {
+                "text": "Why is Proxima Centauri b of interest to scientists?",
+                "choices": [
+                    "It’s the biggest planet ever found",
+                    "It orbits in the habitable zone",
+                    "It’s the hottest planet",
+                    "It doesn’t have an atmosphere"
+                ],
+                "correctAnswer": "It orbits in the habitable zone"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Quiz 3 - Neptunian Planets",
+        "questions": [
+            {
+                "text": "What are Neptunian planets similar to?",
+                "choices": [
+                    "Earth and Mars",
+                    "Mercury and Venus",
+                    "Neptune and Uranus",
+                    "Jupiter and Saturn"
+                ],
+                "correctAnswer": "Neptune and Uranus"
+            },
+            {
+                "text": "What is the main composition of Neptunian planets?",
+                "choices": [
+                    "Hydrogen and helium",
+                    "Rock and ice",
+                    "Water and ammonia",
+                    "Metal and dust"
+                ],
+                "correctAnswer": "Hydrogen and helium"
+            },
+            {
+                "text": "What makes GJ 436 b different from Neptune?",
+                "choices": [
+                    "It is much colder",
+                    "It orbits much closer to its star",
+                    "It has no atmosphere",
+                    "It’s larger than Neptune"
+                ],
+                "correctAnswer": "It orbits much closer to its star"
+            },
+            {
+                "text": "What nickname is given to GJ 436 b?",
+                "choices": [
+                    "Hot Neptune",
+                    "Gas Giant",
+                    "Cold Earth",
+                    "Super-Earth"
+                ],
+                "correctAnswer": "Hot Neptune"
+            },
+            {
+                "text": "Neptunian planets may experience extreme weather, including what?",
+                "choices": [
+                    "Calm winds",
+                    "High-speed winds and storms",
+                    "No atmosphere",
+                    "Low temperatures"
+                ],
+                "correctAnswer": "High-speed winds and storms"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Quiz 4 - Super-Earths",
+        "questions": [
+            {
+                "text": "What defines a Super-Earth?",
+                "choices": [
+                    "A planet smaller than Earth",
+                    "A planet larger than Earth but smaller than Neptune",
+                    "A planet with no atmosphere",
+                    "A planet made of gas"
+                ],
+                "correctAnswer": "A planet larger than Earth but smaller than Neptune"
+            },
+            {
+                "text": "K2-18 b is how many times the mass of Earth?",
+                "choices": [
+                    "4.6 times",
+                    "6.6 times",
+                    "8.6 times",
+                    "10.6 times"
+                ],
+                "correctAnswer": "8.6 times"
+            },
+            {
+                "text": "What makes K2-18 b special?",
+                "choices": [
+                    "Water vapor was detected in its atmosphere",
+                    "It is located very close to Earth",
+                    "It has no atmosphere",
+                    "It is a gas giant"
+                ],
+                "correctAnswer": "Water vapor was detected in its atmosphere"
+            },
+            {
+                "text": "Which telescope helped scientists discover carbon-based molecules on K2-18 b?",
+                "choices": [
+                    "Mars Rover",
+                    "Hubble Space Telescope",
+                    "James Webb Space Telescope",
+                    "Voyager"
+                ],
+                "correctAnswer": "James Webb Space Telescope"
+            },
+            {
+                "text": "Where is K2-18 b located?",
+                "choices": [
+                    "The constellation Leo",
+                    "The constellation Pegasus",
+                    "The constellation Orion",
+                    "The constellation Scorpius"
+                ],
+                "correctAnswer": "The constellation Leo"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Quiz 5 - Gas Giants",
+        "questions": [
+            {
+                "text": "What are gas giants mainly made of?",
+                "choices": [
+                    "Hydrogen and helium",
+                    "Rock and water",
+                    "Metal and dust",
+                    "Ammonia and methane"
+                ],
+                "correctAnswer": "Hydrogen and helium"
+            },
+            {
+                "text": "Which exoplanet is a Hot Jupiter?",
+                "choices": [
+                    "K2-18 b",
+                    "HD 209458 b",
+                    "GJ 436 b",
+                    "Proxima Centauri b"
+                ],
+                "correctAnswer": "HD 209458 b"
+            },
+            {
+                "text": "What is unique about HD 209458 b?",
+                "choices": [
+                    "Its atmosphere is evaporating into space",
+                    "It has no atmosphere",
+                    "It is colder than other gas giants",
+                    "It is made of rock"
+                ],
+                "correctAnswer": "Its atmosphere is evaporating into space"
+            },
+            {
+                "text": "How much hydrogen gas is escaping from HD 209458 b each second?",
+                "choices": [
+                    "1,000 tonnes",
+                    "10,000 tonnes",
+                    "100,000 tonnes",
+                    "1 million tonnes"
+                ],
+                "correctAnswer": "10,000 tonnes"
+            },
+            {
+                "text": "Which constellation is HD 209458 b located in?",
+                "choices": [
+                    "Pegasus",
+                    "Leo",
+                    "Orion",
+                    "Scorpius"
+                ],
+                "correctAnswer": "Pegasus"
+            }
+        ]
+    }
+]
