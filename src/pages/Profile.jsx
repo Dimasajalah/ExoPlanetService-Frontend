@@ -1,213 +1,239 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// src/pages/Profile.jsx
+
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getAuth, getIdToken } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { app } from '../firebase';
 import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
-  deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  deleteUserFailure,
   signOutUserStart,
-  signOutUserFailure, 
-  signOutUserSuccess
+  signOutUserSuccess,
+  signOutUserFailure,
 } from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
-import { getAuth, getIdToken } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const fileRef = useRef(null);
+  const auth = getAuth(app);
   const { currentUser, loading, error } = useSelector((state) => state.user);
+
+  const [formData, setFormData] = useState({});
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
-  const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [tempImage, setTempImage] = useState(null);
-  const dispatch = useDispatch();
-  const auth = getAuth(app);
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('Profile rerendered. currentUser.avatar:', currentUser?.avatar);
+  }, [currentUser?.avatar]);
 
   useEffect(() => {
     if (file) {
-      handleFileUpload(file);
+      const fileUrl = URL.createObjectURL(file);
+      setTempImage(fileUrl);
+      uploadFile(file);
     }
   }, [file]);
 
-  const handleFileUpload = (file) => {
+  const uploadFile = (file) => {
     const storage = getStorage(app);
-    const fileName = new Date().getTime() + file.name;
+    const fileName = `${Date.now()}_${file.name}`;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePerc(Math.round(progress));
+        setFilePerc(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100));
       },
-      (error) => {
-        setFileUploadError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setTempImage(downloadURL);
-          setFormData({ ...formData, avatar: downloadURL });
-        });
+      () => setFileUploadError(true),
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        setFormData((prev) => ({ ...prev, avatar: downloadURL }));
       }
     );
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+  const handleInputChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) return;
+
+    const userId = currentUser?.id || currentUser?._id;
+
+if (!userId) {
+  console.error('❌ userId tidak ditemukan pada currentUser:', currentUser);
+  dispatch(updateUserFailure('User ID tidak tersedia.'));
+  if (!currentUser) {
+  console.warn("⚠️ currentUser belum tersedia.");
+}
+
+  return;
+}
+
+    dispatch(updateUserStart());
+
     try {
-      dispatch(updateUserStart());
-
-      // Get the current user's ID token
-      const idToken = await getIdToken(auth.currentUser);
-
-      const res = await fetch(`/api/user/update/${currentUser?._id || ''}`, {
+      const token = await getIdToken(auth.currentUser);
+      const res = await fetch(`/api/user/update/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
 
       const data = await res.json();
-
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || 'Update failed.');
       }
-      dispatch(updateUserSuccess(data));
+
+      const updatedUser = {
+        ...currentUser,
+        ...data,
+        avatar: `${data.avatar}&updated=${Date.now()}`, // ✅ FIXED: gunakan & bukan ?
+      };
+
+      dispatch(updateUserSuccess(updatedUser));
       setUpdateSuccess(true);
-    } catch (error) {
-      dispatch(updateUserFailure(error.message));
+    } catch (err) {
+      dispatch(updateUserFailure(err.message));
     }
   };
 
   const handleDeleteUser = async () => {
+    dispatch(deleteUserStart());
     try {
-      dispatch(deleteUserStart());
-  
-      // Get the authentication token from storage
-      const authToken = localStorage.getItem('authToken');
-  
+      const token = await getIdToken(auth.currentUser);
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       const data = await res.json();
-  
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message));
-      } else {
-        // Redirect to sign-in page after successful account deletion
-        navigate('/signin');
-        dispatch(deleteUserSuccess(data));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || 'Delete failed.');
       }
-    } catch (error) {
-      dispatch(deleteUserFailure(error.message));
+
+      dispatch(deleteUserSuccess());
+      navigate('/login');
+    } catch (err) {
+      dispatch(deleteUserFailure(err.message));
     }
   };
-  
 
   const handleSignOut = async () => {
+    dispatch(signOutUserStart());
     try {
-      dispatch(signOutUserStart());
       const res = await fetch('/api/auth/signout');
       const data = await res.json();
-      if (data.success === false) {
-        dispatch(signOutUserFailure(data.message));
-        return;
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || 'Sign out failed.');
       }
-      dispatch(signOutUserSuccess(data));
-      navigate('/signin'); // Redirect to sign-in page
-    } catch (error) {
-      dispatch(signOutUserFailure(error.message));
+
+      dispatch(signOutUserSuccess());
+      navigate('/login');
+    } catch (err) {
+      dispatch(signOutUserFailure(err.message));
     }
   };
-  
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <div className='p-4 max-w-xl mx-auto'>
+      <h1 className='text-3xl font-bold text-center my-6'>Profil Saya</h1>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
-          onChange={(e) => setFile(e.target.files[0])}
           type='file'
-          ref={fileRef}
-          hidden
           accept='image/*'
+          hidden
+          ref={fileRef}
+          onChange={(e) => setFile(e.target.files[0])}
         />
         <img
+          src={
+            tempImage
+              ? tempImage
+              : currentUser?.avatar
+              ? `${currentUser.avatar}&t=${Date.now()}`
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+          }
+          alt='Profile'
           onClick={() => fileRef.current.click()}
-          src={tempImage || currentUser?.avatar || 'default-avatar-url'}
-          alt="profile"
-          className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
+          className='h-24 w-24 rounded-full object-cover mx-auto cursor-pointer'
         />
-        <p>
-          {fileUploadError ? (
-            filePerc > 0 && filePerc < 100 ? (
-              <span className='text-red-700'>
-                {`Uploading ${filePerc}%`}
-              </span>
-            ) : filePerc === 100 ? (
-              <span className='text-green-700'>Image successfully uploaded!</span>
+        {filePerc > 0 && (
+          <div className='text-center text-sm'>
+            {filePerc < 100 ? (
+              <span className='text-blue-500'>Uploading {filePerc}%...</span>
+            ) : fileUploadError ? (
+              <span className='text-red-600'>Upload failed.</span>
             ) : (
-              ''
-            )
-          ) : (
-            ''
-          )}
-        </p>
+              <span className='text-green-600'>Upload complete!</span>
+            )}
+          </div>
+        )}
+
         <input
-          type="text"
-          placeholder="username"
+          type='text'
+          id='username'
+          placeholder='Username'
           defaultValue={currentUser?.username}
-          id="username"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
+          onChange={handleInputChange}
+          className='border p-3 rounded-md'
         />
         <input
-          type="text"
-          placeholder='email'
+          type='email'
           id='email'
+          placeholder='Email'
           defaultValue={currentUser?.email}
-          className='border p-3 rounded-lg'
-          onChange={handleChange}
+          onChange={handleInputChange}
+          className='border p-3 rounded-md'
         />
-        {/* Add password confirmation input */}
         <input
-          type="password"
-          placeholder='password'
+          type='password'
           id='password'
-          className='border p-3 rounded-lg'
-          onChange={handleChange}
+          placeholder='New Password'
+          onChange={handleInputChange}
+          className='border p-3 rounded-md'
         />
-        <button disabled={loading}
-          className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80 mt-2'
+        <button
+          disabled={loading}
+          className='bg-slate-800 text-white py-3 rounded-md hover:bg-slate-700 transition disabled:opacity-60'
         >
-          {loading? 'Loading...' : 'Update'}
+          {loading ? 'Updating...' : 'Update Profile'}
         </button>
       </form>
-      <div className="flex justify-between mt-5">
-        <span onClick={handleDeleteUser} className='text-red-700 cursor-pointer'>Delete Account</span>
-        <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>Sign Out</span>
-      </div>
-      <p className='text-red-700 mt-5'>{error ? error : ''}</p>
-      <p className='text-green-700 mt-5'>{updateSuccess ? 'User is updated succesfully!' : ''}</p>
+
+     <div className='flex justify-between mt-6 gap-4'>
+  <button
+    onClick={handleDeleteUser}
+    className='flex-1 bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 transition text-sm font-semibold'
+  >
+    🗑️ Delete Account
+  </button>
+  <button
+    onClick={handleSignOut}
+    className='flex-1 bg-slate-100 text-slate-800 px-4 py-2 rounded-md hover:bg-slate-200 transition text-sm font-semibold'
+  >
+    🚪 Sign Out
+  </button>
+</div> 
+
+      {error && <p className='text-red-600 mt-4 text-center'>{error}</p>}
+      {updateSuccess && <p className='text-green-600 mt-4 text-center'>Profile updated successfully.</p>}
     </div>
   );
 }

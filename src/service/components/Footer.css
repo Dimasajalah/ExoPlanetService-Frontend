@@ -1,0 +1,52 @@
+.footer {
+  background-color: #111; /* dark background */
+  color: burlywood;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.footer-tagline {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.footer-credit {
+  color: gray;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.separator {
+  margin: 0 0.5rem;
+  color: black;
+  font-weight: 700;
+}
+
+.role {
+  color: gray;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.footer-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 3px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-icon:hover,
+.footer-icon:focus {
+  transform: scale(1.15);
+  box-shadow: 0 0 10px 2px #6b4ce6;
+  outline: none;
+}

@@ -94,11 +94,13 @@ const SystemDetails = () => {
     const [generateImage, { isLoading, data }] = useGenerateImageFromTextMutation();
 
     const handleGenerateImage = async () => {
-        if (systemData) {
-            const prompt = generateStableDiffusionPrompt(systemData);
-            await generateImage({ prompt });
-        }
-    };
+    if (systemData) {
+        const prompt = generateStableDiffusionPrompt(systemData);
+        const result = await generateImage({ prompt });
+        console.log("Image generation result:", result);
+    }
+};
+
 
     const renderPlanetDetail = (label, value) => {
         return (
@@ -123,18 +125,6 @@ const SystemDetails = () => {
                     Visible Magnitude: {star.sy_vmag} <br />
                     Coordinates (RA/Dec): {star.rastr}, {star.decstr}
                 </p>
-                {/* Button to generate the image */}
-                <button style={styles.button} onClick={handleGenerateImage} disabled={isLoading}>
-                    {isLoading ? 'Generating Image...' : 'Generate Image'}
-                </button>
-
-                {data && (
-                    <div style={styles.imageContainer}>
-                        {data.output.map((imageUrl, index) => (
-                            <img key={index} src={imageUrl} alt={`Generated ${index}`} style={styles.image} />
-                        ))}
-                    </div>
-                )}
 
             </div>
 

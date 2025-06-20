@@ -2,6 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import quizzesData from "../assets/quizzes.json";
 
+console.log('Loaded quizzesData:', quizzesData);
+
+
 // Add the initial properties 'completed' and 'maxGrade' to each quiz
 const initialState = {
     quizzes: quizzesData.map(quiz => ({

@@ -1,13 +1,20 @@
-const initialState = {
-    user: null,
-  };
-  
-  const userReducer = (state = initialState, action) => {
-    switch (action.type) {
-      default:
-        return state;
-    }
-  };
-  
-  export default userReducer;
-  
+// frontend/src/redux/reducers/userReducer.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    currentUser: null,
+  },
+  reducers: {
+    signInSuccess: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    signOut: (state) => {
+      state.currentUser = null;
+    },
+  },
+});
+
+export const { signInSuccess, signOut } = userSlice.actions;
+export default userSlice.reducer;

@@ -9,7 +9,7 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 const HistogramPlot = () => {
-  const { data, csvColumns } = useCsvData();
+  const { csvData, csvColumns } = useCsvData();
   const { histogramSettings, setHistogramSettings } = usePlotSettings();
 
   const [axisKey, setAxisKey] = useState(histogramSettings?.axis || "");
@@ -27,9 +27,11 @@ const HistogramPlot = () => {
     });
   }, [axisKey, binCount, barColor]);
 
-  const numericValues = data
-    ?.map((d) => parseFloat(d[axisKey]))
-    .filter((v) => !isNaN(v));
+  const numericValues = Array.isArray(csvData)
+  ? csvData
+      .map((d) => parseFloat(d[axisKey]))
+      .filter((v) => !isNaN(v))
+  : [];
 
   if (!axisKey || !numericValues.length) return <div>No numeric data available.</div>;
 

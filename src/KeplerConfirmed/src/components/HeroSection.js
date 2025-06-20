@@ -1,41 +1,68 @@
+// src/components/HeroSection.js
 import React from 'react';
+import styled, { keyframes } from 'styled-components';
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const Section = styled.section`
+  text-align: center;
+  padding: 6rem 2rem 2rem;
+  z-index: 2;
+  animation: ${fadeInUp} 1s ease-in-out;
+`;
+
+const Title = styled.h1`
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+`;
+
+const Subtext = styled.p`
+  color: #dddddd;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+  font-weight: 400;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
+`;
+
+const Exo = styled.span`
+  color: #ffffff;
+`;
+
+const Plorers = styled.span`
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+  text-stroke: 2px white;
+`;
 
 const HeroSection = () => {
-    return (
-        <section style={styles.heroSection}>
-            <h1 style={styles.heroText}>
-                <span style={styles.exoText}>EXO</span>
-                <span style={styles.plorersText}>PLORERS</span>
-            </h1>
-            <h4 style={styles.heroSubtext}>
-                For the best experience use a big display(desktop or laptop) to use the website
-            </h4>
-        </section>
-    );
-};
-
-const styles = {
-    heroSection: {
-        textAlign: 'center',
-        marginTop: '5px',
-        zIndex: 2,
-    },
-    heroText: {
-        fontSize: '50px',
-        fontWeight: 'bold',
-        color: '#fff',
-    },
-    heroSubtext: {
-        color: '#fff'
-    },
-    exoText: {
-        color: '#fff',
-    },
-    plorersText: {
-        color: 'transparent',
-        WebkitTextStroke: '2px white',
-        textStroke: '2px white',
-    },
+  return (
+    <Section aria-label="Hero utama dengan judul website dan tips penggunaan">
+      <Title>
+        <Exo>EXO</Exo>
+        <Plorers>PLORERS</Plorers>
+      </Title>
+      <Subtext>
+        Temukan alam semesta di luar tata surya kita. <br />
+        Direkomendasikan menggunakan desktop atau laptop.
+      </Subtext>
+    </Section>
+  );
 };
 
 export default HeroSection;
+
+

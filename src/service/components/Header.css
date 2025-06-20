@@ -1,0 +1,184 @@
+/* Base reset for header elements */
+.primary-header {
+  background-color: #0b3d91; /* NASA blue */
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Logo */
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  cursor: pointer;
+}
+
+/* Navigation */
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Navigation links */
+.primary-navigation li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+/* Underline indicator */
+.primary-navigation li a.underline-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #ff6f61; /* soft reddish-orange for contrast */
+  transition: width 0.3s ease;
+}
+
+.primary-navigation li a:hover,
+.primary-navigation li a:focus {
+  color: #ff6f61;
+}
+
+.primary-navigation li a:hover::after,
+.primary-navigation li a:focus::after,
+.primary-navigation li a.active::after {
+  width: 100%;
+}
+
+/* Number prefix for menu items */
+.primary-navigation li span[aria-hidden="true"] {
+  font-weight: 700;
+  margin-right: 0.5rem;
+  color: #ff6f61;
+}
+
+/* Mobile nav toggle button */
+.mobile-nav-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none; /* hidden by default, shown on mobile */
+  position: relative;
+  width: 30px;
+  height: 24px;
+  z-index: 1001;
+}
+
+.mobile-nav-toggle.open span,
+.mobile-nav-toggle.close span {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-toggle.open span:nth-child(1) {
+  top: 0;
+}
+
+.mobile-nav-toggle.open span:nth-child(2) {
+  top: 10px;
+}
+
+.mobile-nav-toggle.open span:nth-child(3) {
+  top: 20px;
+}
+
+/* Animate hamburger to X when closing */
+.mobile-nav-toggle.close span:nth-child(1) {
+  top: 10px;
+  transform: rotate(45deg);
+}
+
+.mobile-nav-toggle.close span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-toggle.close span:nth-child(3) {
+  top: 10px;
+  transform: rotate(-45deg);
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 64px; /* height of header */
+    right: 0;
+    background-color: #0b3d91;
+    width: 240px;
+    height: calc(100vh - 64px);
+    padding: 2rem 1rem;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .navbar.open {
+    transform: translateX(0);
+  }
+
+  .navbar.closed {
+    transform: translateX(100%);
+  }
+
+  .primary-navigation {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .primary-navigation li a {
+    font-size: 1.2rem;
+  }
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #ff6f61;
+  color: white;
+  padding: 8px 12px;
+  z-index: 1000;
+  transition: top 0.3s ease;
+  font-weight: 600;
+  border-radius: 0 0 4px 0;
+  text-decoration: none;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: none;
+}

@@ -1,10 +1,15 @@
+// ✅ Updated ScatterPlot.jsx for correct chartjs-chart-error-bars usage
+
 import React, { useEffect, useState, useRef } from "react";
 import { Scatter } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js";
-import "chartjs-chart-error-bars";
+import { ScatterWithErrorBarsController } from "chartjs-chart-error-bars";
 import regression from "regression";
 import { usePlotSettings } from "./PlotSettingsContext";
 import { useCsvData } from "./CsvDataContext";
+
+// ✅ Register correct controller
+ChartJS.register(ScatterWithErrorBarsController);
 
 const ScatterPlot = () => {
   const chartRef = useRef();
@@ -18,7 +23,6 @@ const ScatterPlot = () => {
   const [showErrorBars, setShowErrorBars] = useState(scatterSettings.showErrorBars || false);
   const [showRegression, setShowRegression] = useState(scatterSettings.showRegression || false);
 
-  // Sync local state with context scatterSettings on mount
   useEffect(() => {
     setXKey(scatterSettings.xColumn || "");
     setYKey(scatterSettings.yColumn || "");
@@ -28,7 +32,6 @@ const ScatterPlot = () => {
     setShowRegression(scatterSettings.showRegression || false);
   }, [scatterSettings]);
 
-  // Update scatterSettings context when local state changes
   useEffect(() => {
     setScatterSettings({
       xColumn: xKey,
@@ -68,15 +71,6 @@ const ScatterPlot = () => {
   const chartData = {
     datasets: [
       {
-        type: "errorBar",
-        label: "Error Bars",
-        data: showErrorBars ? baseData : [],
-        borderColor: pointColor,
-        borderWidth: 1,
-        pointRadius: 0,
-        hidden: !showErrorBars,
-      },
-      {
         type: "scatter",
         label: `${yKey} vs ${xKey}`,
         data: baseData,
@@ -113,6 +107,13 @@ const ScatterPlot = () => {
       },
     },
   };
+
+  useEffect(() => {
+    return () => {
+      if (chartRef.current?.destroy) chartRef.current.destroy();
+    };
+  }, []);
+  // (continued from earlier update)
 
   const handleExportImage = () => {
     if (!chartRef.current) return;
@@ -251,7 +252,12 @@ const ScatterPlot = () => {
       {/* Chart Panel */}
       <div className="w-full md:w-2/3 bg-white rounded-xl shadow p-4">
         {xKey && yKey ? (
-          <Scatter ref={chartRef} data={chartData} options={chartOptions} />
+          <Scatter
+            ref={chartRef}
+            key={`${xKey}-${yKey}-${pointColor}-${pointSize}-${showErrorBars}-${showRegression}`}
+            data={chartData}
+            options={chartOptions}
+          />
         ) : (
           <div className="text-gray-600 italic">
             Select X and Y axes to render the plot.
