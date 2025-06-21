@@ -6,6 +6,8 @@ import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+console.log('API URL:', process.env.REACT_APP_API_URL);
+
 export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
