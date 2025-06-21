@@ -1,7 +1,9 @@
 // src/service/AuthServices.js
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export const signUp = async (formData) => {
-  const res = await fetch('/api/auth/signup', {
+  const res = await fetch(`${API_BASE}/api/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData),
@@ -12,7 +14,7 @@ export const signUp = async (formData) => {
 
 export const signIn = async (formData) => {
   try {
-    const res = await fetch('/api/auth/signin', {
+    const res = await fetch(`${API_BASE}/api/auth/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -27,10 +29,11 @@ export const signIn = async (formData) => {
 };
 
 export const getCurrentUser = async () => {
-  const res = await fetch('/api/user/me', {
+  const res = await fetch(`${API_BASE}/api/user/me`, {
     method: 'GET',
     credentials: 'include',
   });
   if (!res.ok) throw new Error('Failed to fetch user');
   return await res.json();
 };
+
