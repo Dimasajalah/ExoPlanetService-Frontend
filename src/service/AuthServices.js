@@ -1,6 +1,6 @@
 // src/service/AuthServices.js
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+const API_BASE = process.env.REACT_APP_API_URL;
 
 export const signUp = async (formData) => {
   const res = await fetch(`${API_BASE}/api/auth/signup`, {
@@ -36,4 +36,3 @@ export const getCurrentUser = async () => {
   if (!res.ok) throw new Error('Failed to fetch user');
   return await res.json();
 };
-
