@@ -41,7 +41,12 @@ const Admin = () => {
   useEffect(() => {
     const fetchDataset = async (endpoint, setter, parseFn) => {
       try {
-        const res = await axios.get(endpoint);
+        const res = await axios.get(endpoint, {
+  headers: {
+    Authorization: `Bearer ${yourAccessToken}`
+  }
+});
+
         const data = parseFn ? parseFn(res.data) : res.data;
         setter(data);
       } catch {
@@ -56,9 +61,10 @@ const Admin = () => {
     ]).finally(() => setIsLoading(false));
   }, []);
 
-  const discoveryMethods = [
-    ...new Set(exoplanets.map((p) => p.discoverymethod).filter(Boolean)),
-  ];
+  const discoveryMethods = Array.isArray(exoplanets)
+  ? [...new Set(exoplanets.map((p) => p.discoverymethod).filter(Boolean))]
+  : [];
+
   const planetTypes = [
     ...new Set(
       [...exoplanets, ...planetaryData]
